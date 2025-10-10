@@ -7,7 +7,7 @@ import { Controller } from "react-hook-form";
 
 import { FormFieldContext, FormItemContext } from "@/contexts";
 import { useFormField } from "@/hooks";
-import { cn } from "@/lib/styles/utils";
+import { cn } from "@/lib/styles";
 
 import { Label } from "./Label";
 

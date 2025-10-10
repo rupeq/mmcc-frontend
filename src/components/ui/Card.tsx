@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { cn } from "@/lib/styles/utils";
+import { cn } from "@/lib/styles";
 
 export const Card = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div

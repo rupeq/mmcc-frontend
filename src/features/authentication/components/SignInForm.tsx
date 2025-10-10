@@ -24,7 +24,7 @@ import {
   Input,
 } from "@/components/ui";
 import { zSignInRequestSchema } from "@/lib/api";
-import { cn } from "@/lib/styles/utils";
+import { cn } from "@/lib/styles";
 
 interface Props extends ComponentProps<"div"> {
   defaultEmail?: string;

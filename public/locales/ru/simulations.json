@@ -1,0 +1,15 @@
+{
+  "sidebar": {
+    "search": {
+      "placeholder": "Поиск симуляций..."
+    },
+    "scroll": {
+      "totalSimulations_zero": "{{count}} симуляций",
+      "totalSimulations_one": "{{count}} симуляция",
+      "totalSimulations_few": "{{count}} симуляции",
+      "totalSimulations_many": "{{count}} симуляций",
+      "nextPageLabel": " • Листайте, чтобы увидеть больше"
+    },
+    "notFoundMessage": "Симуляции отсутствуют"
+  }
+}

@@ -24,7 +24,7 @@ import {
   Input,
 } from "@/components/ui";
 import { zSignUpRequestSchema } from "@/lib/api";
-import { cn } from "@/lib/styles/utils";
+import { cn } from "@/lib/styles";
 
 interface Props extends ComponentProps<"div"> {
   onFormSubmit: (data: z.infer<typeof zSignUpRequestSchema>) => void;

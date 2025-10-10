@@ -25,6 +25,18 @@ interface Resources {
   },
   "common": {
 
+  },
+  "simulations": {
+    "sidebar": {
+      "notFoundMessage": "No simulations found",
+      "scroll": {
+        "nextPageLabel": " • Scroll for more",
+        "totalSimulations": "{{count}} simulations" | "{{count}} simulation" | "{{count}} simulations" | "{{count}} simulations"
+      },
+      "search": {
+        "placeholder": "Search your simulations..."
+      }
+    }
   }
 }
 

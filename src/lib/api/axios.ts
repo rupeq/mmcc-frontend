@@ -1,3 +1,4 @@
+import { AsyncQueuer } from "@tanstack/react-pacer";
 import axios, {
   type AxiosError,
   type AxiosInstance,
@@ -11,25 +12,40 @@ interface ApiConfig {
   timeout?: number;
 }
 
-let isRefreshing = false;
-let failedQueue: Array<{
-  resolve: (value?: unknown) => void;
-  reject: (reason?: unknown) => void;
-}> = [];
+const MUTATION_METHODS = ["POST", "PUT", "PATCH", "DELETE"] as const;
+const REFRESH_TOKEN_PATH = "/api/v1/authorization/access-token";
+const SIGNIN_PATH = "/signin";
 
-const processQueue = (error: Error | null) => {
-  failedQueue.forEach((prom) => {
-    if (error) {
-      prom.reject(error);
-    } else {
-      prom.resolve();
-    }
-  });
-
-  failedQueue = [];
+const redirectToSignIn = () => {
+  CookieUtils.clearAuthCookies();
+  window.location.href = SIGNIN_PATH;
 };
 
-const MUTATION_METHODS = ["POST", "PUT", "PATCH", "DELETE"];
+const isRefreshTokenRequest = (url?: string): boolean => {
+  return url?.includes(REFRESH_TOKEN_PATH) ?? false;
+};
+
+const requiresCsrfToken = (method?: string): boolean => {
+  return method
+    ? MUTATION_METHODS.includes(
+        method.toUpperCase() as (typeof MUTATION_METHODS)[number],
+      )
+    : false;
+};
+
+const addCsrfToken = (config: InternalAxiosRequestConfig): void => {
+  if (!requiresCsrfToken(config.method)) {
+    return;
+  }
+
+  const csrfToken = isRefreshTokenRequest(config.url)
+    ? CookieUtils.getCsrfRefreshToken()
+    : CookieUtils.getCsrfAccessToken();
+
+  if (csrfToken && config.headers) {
+    config.headers["X-CSRF-Token"] = csrfToken;
+  }
+};
 
 export const createApiClient = (config: ApiConfig): AxiosInstance => {
   const instance = axios.create({
@@ -40,85 +56,64 @@ export const createApiClient = (config: ApiConfig): AxiosInstance => {
     withCredentials: true,
   });
 
+  const refreshQueue = new AsyncQueuer(
+    async () => {
+      await instance.put(REFRESH_TOKEN_PATH);
+    },
+    {
+      concurrency: 1,
+      started: true,
+      key: "token-refresh-queue",
+      onError: (error) => {
+        if (import.meta.env.DEV) {
+          console.error("Token refresh failed:", error);
+        }
+        redirectToSignIn();
+      },
+    },
+  );
+
+  const refreshAccessToken = () => {
+    refreshQueue.addItem(undefined);
+  };
+
   instance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-      const method = config.method?.toUpperCase();
-
-      if (method && MUTATION_METHODS.includes(method)) {
-        if (config.url?.includes("/authorization/access-token")) {
-          const csrfRefreshToken = CookieUtils.getCsrfRefreshToken();
-          if (csrfRefreshToken && config.headers) {
-            config.headers["X-CSRF-Token"] = csrfRefreshToken;
-          }
-        } else {
-          const csrfAccessToken = CookieUtils.getCsrfAccessToken();
-          if (csrfAccessToken && config.headers) {
-            config.headers["X-CSRF-Token"] = csrfAccessToken;
-          }
-        }
-      }
-
+      addCsrfToken(config);
       return config;
     },
     (error: AxiosError) => Promise.reject(error),
   );
 
+  const handle401Error = (error: AxiosError): unknown => {
+    const originalRequest = error.config as InternalAxiosRequestConfig & {
+      _retry?: boolean;
+    };
+
+    if (originalRequest._retry) {
+      return Promise.reject(error);
+    }
+
+    if (isRefreshTokenRequest(originalRequest.url)) {
+      redirectToSignIn();
+      return Promise.reject(error);
+    }
+
+    originalRequest._retry = true;
+
+    try {
+      refreshAccessToken();
+      return instance(originalRequest);
+    } catch (refreshError) {
+      return Promise.reject(refreshError);
+    }
+  };
+
   instance.interceptors.response.use(
     (response) => response,
     async (error: AxiosError) => {
-      const originalRequest = error.config as InternalAxiosRequestConfig & {
-        _retry?: boolean;
-      };
-
-      if (error.response?.status === 401 && !originalRequest._retry) {
-        if (originalRequest.url?.includes("/authorization/access-token")) {
-          CookieUtils.clearAuthCookies();
-          window.location.href = "/signin";
-          return Promise.reject(error);
-        }
-
-        if (isRefreshing) {
-          return new Promise((resolve, reject) => {
-            failedQueue.push({ resolve, reject });
-          })
-            .then(() => {
-              return instance(originalRequest);
-            })
-            .catch((err) => {
-              return Promise.reject(err);
-            });
-        }
-
-        originalRequest._retry = true;
-        isRefreshing = true;
-
-        try {
-          await instance.put("/api/v1/authorization/access-token");
-          processQueue(null);
-          return instance(originalRequest);
-        } catch (refreshError) {
-          processQueue(refreshError as Error);
-          CookieUtils.clearAuthCookies();
-          window.location.href = "/signin";
-          return Promise.reject(refreshError);
-        } finally {
-          isRefreshing = false;
-        }
-      }
-
-      if (error.response?.status === 403) {
-        if (!originalRequest._retry) {
-          originalRequest._retry = true;
-
-          try {
-            await instance.put("/api/v1/authorization/access-token");
-            return instance(originalRequest);
-          } catch (refreshError) {
-            CookieUtils.clearAuthCookies();
-            window.location.href = "/signin";
-            return Promise.reject(refreshError);
-          }
-        }
+      if (error.response?.status === 401) {
+        return handle401Error(error);
       }
 
       return Promise.reject(error);

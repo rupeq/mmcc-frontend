@@ -1,0 +1,15 @@
+{
+  "sidebar": {
+    "search": {
+      "placeholder": "Search your simulations..."
+    },
+    "scroll": {
+      "totalSimulations_zero": "{{count}} simulations",
+      "totalSimulations_one": "{{count}} simulation",
+      "totalSimulations_few": "{{count}} simulations",
+      "totalSimulations_many": "{{count}} simulations",
+      "nextPageLabel": " • Scroll for more"
+    },
+    "notFoundMessage": "No simulations found"
+  }
+}

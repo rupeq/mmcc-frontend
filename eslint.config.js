@@ -5,11 +5,13 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import preferArrowFunctions from "eslint-plugin-prefer-arrow-functions";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
+import pluginRouter from "@tanstack/eslint-plugin-router";
 
 export default [
   { ignores: ["dist"] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  ...pluginRouter.configs["flat/recommended"],
   {
     files: ["**/*.{ts,tsx,js,mjs,cjs}"],
     languageOptions: {

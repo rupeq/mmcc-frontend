@@ -1,15 +1,31 @@
+import { TanStackDevtools } from "@tanstack/react-devtools";
+import { pacerDevtoolsPlugin } from "@tanstack/react-pacer-devtools";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
-import { queryClient } from "@/lib/tanstack/tanstack-query";
+import { queryClient } from "@/lib/tanstack";
 
 const RootLayout = () => (
   <QueryClientProvider client={queryClient}>
     <Outlet />
-    <TanStackRouterDevtools />
-    <ReactQueryDevtools initialIsOpen={false} />
+    <TanStackDevtools
+      eventBusConfig={{
+        debug: false,
+      }}
+      plugins={[
+        pacerDevtoolsPlugin(),
+        {
+          name: "TanStack Query",
+          render: <ReactQueryDevtoolsPanel />,
+        },
+        {
+          name: "TanStack Router",
+          render: <TanStackRouterDevtoolsPanel />,
+        },
+      ]}
+    />
   </QueryClientProvider>
 );
 

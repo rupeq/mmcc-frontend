@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider } from "@tanstack/react-router";
 
 import { FullPageSpinner } from "@/components/FullPageSpinner";
-import { router } from "@/lib/tanstack/tanstack-router";
+import { router } from "@/lib/tanstack";
 
 import "./index.css";
 

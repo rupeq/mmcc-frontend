@@ -4,7 +4,7 @@ import { Slot, Slottable } from "@radix-ui/react-slot";
 import type { VariantProps } from "class-variance-authority";
 import { Loader2Icon } from "lucide-react";
 
-import { cn } from "@/lib/styles/utils";
+import { cn } from "@/lib/styles";
 
 import { buttonVariants } from "./variants";
 
