@@ -1,5 +1,5 @@
 {
-  "form": {
+  "signInForm": {
     "title": "Login to your account",
     "description": "Enter your credentials below to login to your account",
     "fields": {
@@ -8,6 +8,17 @@
     },
     "buttons": {
       "submit": "Sign in"
+    }
+  },
+  "signUpForm": {
+    "title": "Create a new account",
+    "description": "Enter your credentials below to create your account",
+    "fields": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "buttons": {
+      "submit": "Sign up"
     }
   }
 }

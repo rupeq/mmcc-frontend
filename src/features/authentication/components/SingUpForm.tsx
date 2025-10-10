@@ -23,18 +23,16 @@ import {
   FormMessage,
   Input,
 } from "@/components/ui";
-import { zSignInRequestSchema } from "@/lib/api";
+import { zSignUpRequestSchema } from "@/lib/api";
 import { cn } from "@/lib/styles/utils";
 
 interface Props extends ComponentProps<"div"> {
-  defaultEmail?: string;
-  onFormSubmit: (data: z.infer<typeof zSignInRequestSchema>) => void;
+  onFormSubmit: (data: z.infer<typeof zSignUpRequestSchema>) => void;
   isLoading?: boolean;
   error?: AxiosError<{ detail: string }> | null;
 }
 
-export const SignInForm = ({
-  defaultEmail = "",
+export const SignUpForm = ({
   onFormSubmit,
   isLoading = false,
   className,
@@ -43,10 +41,10 @@ export const SignInForm = ({
 }: Props) => {
   const { t } = useTranslation(["authentication"]);
 
-  const form = useForm<z.input<typeof zSignInRequestSchema>>({
-    resolver: zodResolver(zSignInRequestSchema),
+  const form = useForm<z.input<typeof zSignUpRequestSchema>>({
+    resolver: zodResolver(zSignUpRequestSchema),
     defaultValues: {
-      email: defaultEmail,
+      email: "",
       password: "",
     },
   });
@@ -56,8 +54,7 @@ export const SignInForm = ({
       return;
     }
 
-    const errorMessage =
-      error.response?.data?.detail ?? "Authentication failed";
+    const errorMessage = error.response?.data?.detail ?? "Sign up failed";
 
     form.setError("root", {
       type: "manual",
@@ -69,9 +66,9 @@ export const SignInForm = ({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>{t(($) => $.signInForm.title)}</CardTitle>
+          <CardTitle>{t(($) => $.signUpForm.title)}</CardTitle>
           <CardDescription>
-            {t(($) => $.signInForm.description)}
+            {t(($) => $.signUpForm.description)}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -84,7 +81,7 @@ export const SignInForm = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        {t(($) => $.signInForm.fields.email)}
+                        {t(($) => $.signUpForm.fields.email)}
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -105,7 +102,7 @@ export const SignInForm = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        {t(($) => $.signInForm.fields.password)}
+                        {t(($) => $.signUpForm.fields.password)}
                       </FormLabel>
                       <FormControl>
                         <PasswordInput
@@ -125,7 +122,7 @@ export const SignInForm = ({
                   </div>
                 )}
                 <Button type="submit" isLoading={isLoading}>
-                  {t(($) => $.signInForm.buttons.submit)}
+                  {t(($) => $.signUpForm.buttons.submit)}
                 </Button>
               </FieldGroup>
             </form>
