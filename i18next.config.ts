@@ -13,8 +13,8 @@ export default defineConfig({
   },
   types: {
     input: ["public/locales/ru/*.json", "public/locales/en/*.json"],
-    output: "src/i18n/i18next.d.ts",
-    resourcesFile: "src/i18n/resources.d.ts",
+    output: "src/lib/i18n/i18next.d.ts",
+    resourcesFile: "src/lib/i18n/resources.d.ts",
     enableSelector: true,
   },
 });

@@ -3,7 +3,7 @@ import * as React from "react";
 import type { VariantProps } from "class-variance-authority";
 
 import { spinnerVariants } from "@/components/ui/variants";
-import { cn } from "@/lib/shadcn/utils";
+import { cn } from "@/lib/styles/utils";
 
 export const Spinner = ({
   className,
