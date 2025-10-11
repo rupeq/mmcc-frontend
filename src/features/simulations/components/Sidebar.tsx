@@ -1,7 +1,6 @@
-import { useCallback, useRef } from "react";
+import { use, useRef } from "react";
 
 import { useTranslation } from "react-i18next";
-import { z } from "zod";
 
 import {
   Input,
@@ -12,66 +11,56 @@ import {
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSkeleton,
 } from "@/components/ui";
-import type { zSimulationConfigurationInfo } from "@/lib/api";
+import { SimulationsMenu } from "@/features/simulations/components/SimulationsMenu";
+import { SimulationsSearchContext } from "@/features/simulations/contexts";
 
 interface Props {
   search: string;
   onSearchChange: (search: string) => void;
-  simulations: Array<z.infer<typeof zSimulationConfigurationInfo>>;
-  isLoading: boolean;
-  isFetchingNextPage: boolean;
-  hasNextPage: boolean;
-  onLoadMore: () => void;
 }
 
-export const Sidebar = ({
-  search,
-  onSearchChange,
-  simulations,
-  isLoading,
-  isFetchingNextPage,
-  hasNextPage,
-  onLoadMore,
-}: Props) => {
+export const Sidebar = ({ search, onSearchChange }: Props) => {
   const { t } = useTranslation(["simulations"]);
   const observerTarget = useRef<HTMLLIElement>(null);
 
-  const lastSimulationRef = useCallback(
-    (node: HTMLLIElement | null) => {
-      if (isFetchingNextPage) return;
+  const {
+    isFetchingNextPage,
+    hasNextPage,
+    onLoadMore,
+    isLoading,
+    simulations,
+  } = use(SimulationsSearchContext);
 
-      if (observerTarget.current) {
-        observerTarget.current = null;
-      }
+  const lastSimulationRef = (node: HTMLLIElement | null) => {
+    if (isFetchingNextPage) return;
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting && hasNextPage) {
-            onLoadMore();
-          }
-        },
-        {
-          rootMargin: "100px",
-        },
-      );
+    if (observerTarget.current) {
+      observerTarget.current = null;
+    }
 
-      if (node) {
-        observer.observe(node);
-        observerTarget.current = node;
-      }
-
-      return () => {
-        if (observerTarget.current) {
-          observer.disconnect();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          onLoadMore();
         }
-      };
-    },
-    [isFetchingNextPage, hasNextPage, onLoadMore],
-  );
+      },
+      {
+        rootMargin: "100px",
+      },
+    );
+
+    if (node) {
+      observer.observe(node);
+      observerTarget.current = node;
+    }
+
+    return () => {
+      if (observerTarget.current) {
+        observer.disconnect();
+      }
+    };
+  };
 
   return (
     <SidebarRoot>
@@ -86,47 +75,7 @@ export const Sidebar = ({
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {isLoading && !simulations.length ? (
-                <>
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <SidebarMenuItem key={`skeleton-${index}`}>
-                      <SidebarMenuSkeleton showIcon={true} />
-                    </SidebarMenuItem>
-                  ))}
-                </>
-              ) : simulations.length === 0 ? (
-                <div className="p-4 text-center text-sm text-muted-foreground">
-                  {t(($) => $.sidebar.notFoundMessage)}
-                </div>
-              ) : (
-                <>
-                  {simulations.map((simulation, index) => {
-                    const isLastItem = index === simulations.length - 1;
-
-                    return (
-                      <SidebarMenuItem
-                        key={simulation.id}
-                        ref={isLastItem ? lastSimulationRef : undefined}
-                      >
-                        <SidebarMenuButton
-                          tooltip={simulation.description ?? undefined}
-                        >
-                          <span className="truncate">{simulation.name}</span>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    );
-                  })}
-                  {isFetchingNextPage && (
-                    <>
-                      {Array.from({ length: 3 }).map((_, index) => (
-                        <SidebarMenuItem key={`loading-${index}`}>
-                          <SidebarMenuSkeleton showIcon={true} />
-                        </SidebarMenuItem>
-                      ))}
-                    </>
-                  )}
-                </>
-              )}
+              <SimulationsMenu lastSimulationRef={lastSimulationRef} />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

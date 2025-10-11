@@ -1,4 +1,5 @@
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui";
+import { SimulationsSearchContext } from "@/features/simulations/contexts";
 import { useSimulationsSearch } from "@/features/simulations/hooks";
 
 import { Sidebar } from "./Sidebar";
@@ -11,17 +12,21 @@ export const Simulations = ({ defaultSearch }: Props) => {
   const { search, simulations, simulationsQuery, handleSearchChange } =
     useSimulationsSearch(defaultSearch);
 
+  const handleLoadMore = () => simulationsQuery.fetchNextPage();
+
   return (
     <SidebarProvider>
-      <Sidebar
-        search={search}
-        onSearchChange={handleSearchChange}
-        simulations={simulations}
-        isLoading={simulationsQuery.isLoading}
-        isFetchingNextPage={simulationsQuery.isFetchingNextPage}
-        hasNextPage={simulationsQuery.hasNextPage ?? false}
-        onLoadMore={() => simulationsQuery.fetchNextPage()}
-      />
+      <SimulationsSearchContext.Provider
+        value={{
+          simulations,
+          onLoadMore: handleLoadMore,
+          isLoading: simulationsQuery.isLoading,
+          isFetchingNextPage: simulationsQuery.isFetchingNextPage,
+          hasNextPage: simulationsQuery.hasNextPage,
+        }}
+      >
+        <Sidebar search={search} onSearchChange={handleSearchChange} />
+      </SimulationsSearchContext.Provider>
       <SidebarInset>
         <header className="flex h-16 items-center gap-2 border-b px-4">
           <SidebarTrigger />
