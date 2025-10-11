@@ -1,4 +1,4 @@
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { useSignInMutation } from "@/features/authentication/services";
@@ -6,11 +6,11 @@ import { type zSignInRequestSchema } from "@/lib/api";
 
 import { SignInForm } from "./SignInForm";
 
-export const SignIn = () => {
-  const defaultEmail = useSearch({
-    select: (params) => params.email,
-    from: "/signin/",
-  });
+interface Props {
+  defaultEmail?: string;
+}
+
+export const SignIn = ({ defaultEmail }: Props) => {
   const navigate = useNavigate();
   const signInMutation = useSignInMutation();
 
