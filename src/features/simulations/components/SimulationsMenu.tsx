@@ -21,7 +21,7 @@ export const SimulationsMenu = ({ lastSimulationRef }: Props) => {
   if (isLoading && simulations.length === 0) {
     return Array.from({ length: 25 }).map((_, index) => (
       <SidebarMenuItem key={`skeleton-${index}`}>
-        <SidebarMenuSkeleton showIcon={false} />
+        <SidebarMenuSkeleton showIcon={false} className="w-full" />
       </SidebarMenuItem>
     ));
   }

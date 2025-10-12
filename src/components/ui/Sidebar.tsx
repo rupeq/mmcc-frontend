@@ -29,7 +29,6 @@ const SIDEBAR_WIDTH = "16rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
-const RANDOM_WIDTH_C = Math.random();
 
 const SidebarProvider = ({
   defaultOpen = true,
@@ -174,7 +173,7 @@ const Sidebar = ({
           side={side}
         >
           <SheetHeader className="sr-only">
-            <SheetTitle>Sidebar</SheetTitle>
+            <SheetTitle>SimulationsSidebar</SheetTitle>
             <SheetDescription>Displays the mobile sidebar.</SheetDescription>
           </SheetHeader>
           <div className="flex h-full w-full flex-col">{children}</div>
@@ -252,7 +251,7 @@ const SidebarTrigger = ({
       {...props}
     >
       <PanelLeftIcon />
-      <span className="sr-only">Toggle Sidebar</span>
+      <span className="sr-only">Toggle SimulationsSidebar</span>
     </Button>
   );
 };
@@ -267,10 +266,10 @@ const SidebarRail = ({
     <button
       data-sidebar="rail"
       data-slot="sidebar-rail"
-      aria-label="Toggle Sidebar"
+      aria-label="Toggle SimulationsSidebar"
       tabIndex={-1}
       onClick={toggleSidebar}
-      title="Toggle Sidebar"
+      title="Toggle SimulationsSidebar"
       className={cn(
         "hover:after:bg-sidebar-border absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] sm:flex",
         "in-data-[side=left]:cursor-w-resize in-data-[side=right]:cursor-e-resize",
@@ -485,7 +484,7 @@ const SidebarMenuButton = ({
   tooltip?: string | React.ComponentProps<typeof TooltipContent>;
 } & VariantProps<typeof sidebarMenuButtonVariants>) => {
   const Comp = asChild ? Slot : "button";
-  const { isMobile, state } = useSidebar();
+  const { isMobile } = useSidebar();
 
   const button = (
     <Comp
@@ -514,7 +513,7 @@ const SidebarMenuButton = ({
       <TooltipContent
         side="right"
         align="center"
-        hidden={state !== "collapsed" || isMobile}
+        hidden={isMobile}
         {...tooltip}
       />
     </Tooltip>
@@ -580,15 +579,11 @@ const SidebarMenuSkeleton = ({
 }: React.ComponentProps<"div"> & {
   showIcon?: boolean;
 }) => {
-  const width = React.useMemo(() => {
-    return `${Math.floor(RANDOM_WIDTH_C * 40) + 50}%`;
-  }, []);
-
   return (
     <div
       data-slot="sidebar-menu-skeleton"
       data-sidebar="menu-skeleton"
-      className={cn("flex h-8 items-center gap-2 rounded-md px-2", className)}
+      className={cn("flex h-8 items-center gap-2 rounded-md", className)}
       {...props}
     >
       {showIcon && (
@@ -598,13 +593,8 @@ const SidebarMenuSkeleton = ({
         />
       )}
       <Skeleton
-        className="h-4 max-w-(--skeleton-width) flex-1"
+        className="h-4 max-w-full flex-1"
         data-sidebar="menu-skeleton-text"
-        style={
-          {
-            "--skeleton-width": width,
-          } as React.CSSProperties
-        }
       />
     </div>
   );

@@ -19,7 +19,10 @@ export const SimulationsMenuItem = ({
       key={simulation.id}
       ref={isLastItem ? lastSimulationRef : undefined}
     >
-      <SidebarMenuButton tooltip={simulation.description ?? undefined}>
+      <SidebarMenuButton
+        tooltip={simulation.description ?? undefined}
+        className="cursor-pointer"
+      >
         <span className="truncate">{simulation.name}</span>
       </SidebarMenuButton>
     </SidebarMenuItem>

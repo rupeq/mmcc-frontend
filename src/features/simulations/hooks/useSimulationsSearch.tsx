@@ -5,6 +5,8 @@ import { useNavigate } from "@tanstack/react-router";
 
 import { useSimulationsInfiniteQuery } from "@/features/simulations/services";
 
+const columns = ["id", "name", "description"];
+
 export const useSimulationsSearch = (defaultSearch?: string) => {
   const [search, setSearch] = useState<string>(defaultSearch ?? "");
   const [debouncedSearch] = useDebouncedValue(search, { wait: 500 });
@@ -13,9 +15,9 @@ export const useSimulationsSearch = (defaultSearch?: string) => {
 
   const simulationsQuery = useSimulationsInfiniteQuery({
     filters: debouncedSearch
-      ? `name:${debouncedSearch},description:${debouncedSearch}`
+      ? columns.map((column) => `${column}:${debouncedSearch}`).join(",")
       : undefined,
-    columns: ["id", "name", "description"],
+    columns,
     limit: 20,
   });
 

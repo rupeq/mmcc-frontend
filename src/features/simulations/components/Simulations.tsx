@@ -2,7 +2,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui";
 import { SimulationsSearchContext } from "@/features/simulations/contexts";
 import { useSimulationsSearch } from "@/features/simulations/hooks";
 
-import { Sidebar } from "./Sidebar";
+import { SimulationsSidebar } from "./SimulationsSidebar";
 
 interface Props {
   defaultSearch?: string;
@@ -25,7 +25,10 @@ export const Simulations = ({ defaultSearch }: Props) => {
           hasNextPage: simulationsQuery.hasNextPage,
         }}
       >
-        <Sidebar search={search} onSearchChange={handleSearchChange} />
+        <SimulationsSidebar
+          search={search}
+          onSearchChange={handleSearchChange}
+        />
       </SimulationsSearchContext.Provider>
       <SidebarInset>
         <header className="flex h-16 items-center gap-2 border-b px-4">

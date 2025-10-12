@@ -20,7 +20,7 @@ interface Props {
   onSearchChange: (search: string) => void;
 }
 
-export const Sidebar = ({ search, onSearchChange }: Props) => {
+export const SimulationsSidebar = ({ search, onSearchChange }: Props) => {
   const { t } = useTranslation(["simulations"]);
   const observerTarget = useRef<HTMLLIElement>(null);
 
@@ -33,7 +33,9 @@ export const Sidebar = ({ search, onSearchChange }: Props) => {
   } = use(SimulationsSearchContext);
 
   const lastSimulationRef = (node: HTMLLIElement | null) => {
-    if (isFetchingNextPage) return;
+    if (isFetchingNextPage) {
+      return;
+    }
 
     if (observerTarget.current) {
       observerTarget.current = null;
@@ -82,7 +84,7 @@ export const Sidebar = ({ search, onSearchChange }: Props) => {
       </SidebarContent>
       <SidebarFooter>
         {!isLoading && simulations.length > 0 && (
-          <div className="px-2 py-1 text-xs text-muted-foreground">
+          <div className="px-2 py-1 text-xs text-muted-foreground pointer-events-none select-none">
             {t(($) => $.sidebar.scroll.totalSimulations, {
               count: simulations.length,
             })}
