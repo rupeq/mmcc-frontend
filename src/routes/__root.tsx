@@ -2,9 +2,14 @@ import { TanStackDevtools } from "@tanstack/react-devtools";
 import { pacerDevtoolsPlugin } from "@tanstack/react-pacer-devtools";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
-import { createRootRoute, HeadContent, Outlet } from "@tanstack/react-router";
+import {
+  createRootRouteWithContext,
+  HeadContent,
+  Outlet,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
+import type { RouterContext } from "@/lib/tanstack";
 import { queryClient } from "@/lib/tanstack";
 
 const RootLayout = () => (
@@ -30,4 +35,6 @@ const RootLayout = () => (
   </QueryClientProvider>
 );
 
-export const Route = createRootRoute({ component: RootLayout });
+export const Route = createRootRouteWithContext<RouterContext>()({
+  component: RootLayout,
+});

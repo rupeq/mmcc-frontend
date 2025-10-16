@@ -18,12 +18,14 @@ interface Props {
   lastSimulationRef: (node: HTMLLIElement | null) => void;
   hasFilters: boolean;
   onFiltersClear: () => void;
+  activeSimulationId?: string;
 }
 
 export const SimulationsMenu = ({
   lastSimulationRef,
   hasFilters,
   onFiltersClear,
+  activeSimulationId,
 }: Props) => {
   const { t } = useTranslation(["simulations"]);
   const { isFetchingNextPage, isLoading, simulations, onDeleteSuccess } = use(
@@ -64,6 +66,7 @@ export const SimulationsMenu = ({
           isLastItem={simulations.length - 1 === index}
           lastSimulationRef={lastSimulationRef}
           onDeleteSuccess={onDeleteSuccess}
+          isActive={simulation.id === activeSimulationId}
         />
       ))}
       {isFetchingNextPage &&

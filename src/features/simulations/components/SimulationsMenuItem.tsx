@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Trash2 } from "lucide-react";
 import { z } from "zod";
 
@@ -14,6 +15,7 @@ interface Props {
   isLastItem: boolean;
   lastSimulationRef: (node: HTMLLIElement | null) => void;
   onDeleteSuccess?: () => void;
+  isActive?: boolean;
 }
 
 export const SimulationsMenuItem = ({
@@ -21,6 +23,7 @@ export const SimulationsMenuItem = ({
   isLastItem,
   lastSimulationRef,
   onDeleteSuccess,
+  isActive = false,
 }: Props) => {
   const deleteMutation = useDeleteSimulationMutation({
     onSuccess: () => {
@@ -31,7 +34,6 @@ export const SimulationsMenuItem = ({
   const handleDelete = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
     if (
       window.confirm(
         `Are you sure you want to delete "${simulation.name}"? This action cannot be undone.`,
@@ -48,12 +50,18 @@ export const SimulationsMenuItem = ({
     >
       <SidebarMenuButton
         tooltip={simulation.description ?? undefined}
-        className="cursor-pointer"
+        asChild
+        isActive={isActive}
       >
-        <span className="truncate">
-          {!simulation.is_active && <span>(Archived) </span>}
-          {simulation.name}
-        </span>
+        <Link
+          to="/simulations/$simulationId"
+          params={{ simulationId: simulation.id }}
+        >
+          <span className="truncate">
+            {!simulation.is_active && <span>(Archived) </span>}
+            {simulation.name}
+          </span>
+        </Link>
       </SidebarMenuButton>
       {simulation.is_active && (
         <SidebarMenuAction

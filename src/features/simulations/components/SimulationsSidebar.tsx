@@ -21,7 +21,11 @@ import { SimulationFilters } from "@/features/simulations/components/SimulationF
 import { SimulationsMenu } from "@/features/simulations/components/SimulationsMenu";
 import { SimulationsFiltersContext } from "@/features/simulations/contexts";
 
-export const SimulationsSidebar = () => {
+interface Props {
+  activeSimulationId?: string;
+}
+
+export const SimulationsSidebar = ({ activeSimulationId }: Props) => {
   const { t } = useTranslation(["simulations"]);
   const observerTarget = useRef<HTMLLIElement>(null);
   const [isFiltersPopoverOpen, setIsFiltersPopoverOpen] = useState(false);
@@ -46,6 +50,7 @@ export const SimulationsSidebar = () => {
     if (observerTarget.current) {
       observerTarget.current = null;
     }
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasNextPage) {
@@ -104,6 +109,7 @@ export const SimulationsSidebar = () => {
                 lastSimulationRef={lastSimulationRef}
                 hasFilters={hasFilters}
                 onFiltersClear={clearFilters}
+                activeSimulationId={activeSimulationId}
               />
             </SidebarMenu>
           </SidebarGroupContent>
