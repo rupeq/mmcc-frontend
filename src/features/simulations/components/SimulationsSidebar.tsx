@@ -1,9 +1,14 @@
-import { use, useRef } from "react";
+import { use, useRef, useState } from "react";
 
+import { Funnel } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import {
+  Button,
   Input,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
   Sidebar as SidebarRoot,
   SidebarContent,
   SidebarFooter,
@@ -12,51 +17,49 @@ import {
   SidebarHeader,
   SidebarMenu,
 } from "@/components/ui";
+import { SimulationFilters } from "@/features/simulations/components/SimulationFilters";
 import { SimulationsMenu } from "@/features/simulations/components/SimulationsMenu";
-import { SimulationsSearchContext } from "@/features/simulations/contexts";
+import { SimulationsFiltersContext } from "@/features/simulations/contexts";
 
-interface Props {
-  search: string;
-  onSearchChange: (search: string) => void;
-}
-
-export const SimulationsSidebar = ({ search, onSearchChange }: Props) => {
+export const SimulationsSidebar = () => {
   const { t } = useTranslation(["simulations"]);
   const observerTarget = useRef<HTMLLIElement>(null);
+  const [isFiltersPopoverOpen, setIsFiltersPopoverOpen] = useState(false);
 
   const {
+    search,
+    reportStatus,
+    showArchived,
+    simulations,
+    isLoading,
     isFetchingNextPage,
     hasNextPage,
-    onLoadMore,
-    isLoading,
-    simulations,
-  } = use(SimulationsSearchContext);
+    setSearch,
+    clearFilters,
+    loadMore,
+  } = use(SimulationsFiltersContext);
 
   const lastSimulationRef = (node: HTMLLIElement | null) => {
     if (isFetchingNextPage) {
       return;
     }
-
     if (observerTarget.current) {
       observerTarget.current = null;
     }
-
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasNextPage) {
-          onLoadMore();
+          loadMore();
         }
       },
       {
         rootMargin: "100px",
       },
     );
-
     if (node) {
       observer.observe(node);
       observerTarget.current = node;
     }
-
     return () => {
       if (observerTarget.current) {
         observer.disconnect();
@@ -64,20 +67,44 @@ export const SimulationsSidebar = ({ search, onSearchChange }: Props) => {
     };
   };
 
+  const hasFilters = !!search || !!reportStatus || showArchived !== undefined;
+
   return (
     <SidebarRoot>
-      <SidebarHeader>
+      <SidebarHeader className="flex-row">
         <Input
           placeholder={t(($) => $.sidebar.search.placeholder)}
-          onChange={(event) => onSearchChange(event.target.value)}
+          onChange={(event) => setSearch(event.target.value)}
           value={search}
         />
+        <Popover
+          open={isFiltersPopoverOpen}
+          onOpenChange={setIsFiltersPopoverOpen}
+        >
+          <PopoverTrigger asChild={true}>
+            <Button
+              variant="outline"
+              size="icon"
+              aria-label="Filters"
+              className={hasFilters ? "border-blue-600" : ""}
+            >
+              <Funnel className={hasFilters ? "text-blue-600" : ""} />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <SimulationFilters onClose={() => setIsFiltersPopoverOpen(false)} />
+          </PopoverContent>
+        </Popover>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SimulationsMenu lastSimulationRef={lastSimulationRef} />
+              <SimulationsMenu
+                lastSimulationRef={lastSimulationRef}
+                hasFilters={hasFilters}
+                onFiltersClear={clearFilters}
+              />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

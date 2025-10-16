@@ -1,1 +1,1 @@
-export { useSimulationsSearch } from "./useSimulationsSearch";
+export { useSimulationFilters } from "./useSimulationFilters";

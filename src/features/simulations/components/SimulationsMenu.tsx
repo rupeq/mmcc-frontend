@@ -2,20 +2,32 @@ import { use } from "react";
 
 import { useTranslation } from "react-i18next";
 
-import { SidebarMenuItem, SidebarMenuSkeleton } from "@/components/ui";
-import { SimulationsSearchContext } from "@/features/simulations/contexts";
+import {
+  Button,
+  Empty,
+  EmptyHeader,
+  EmptyTitle,
+  SidebarMenuItem,
+  SidebarMenuSkeleton,
+} from "@/components/ui";
+import { SimulationsFiltersContext } from "@/features/simulations/contexts";
 
 import { SimulationsMenuItem } from "./SimulationsMenuItem";
 
 interface Props {
   lastSimulationRef: (node: HTMLLIElement | null) => void;
+  hasFilters: boolean;
+  onFiltersClear: () => void;
 }
 
-export const SimulationsMenu = ({ lastSimulationRef }: Props) => {
+export const SimulationsMenu = ({
+  lastSimulationRef,
+  hasFilters,
+  onFiltersClear,
+}: Props) => {
   const { t } = useTranslation(["simulations"]);
-
   const { isFetchingNextPage, isLoading, simulations } = use(
-    SimulationsSearchContext,
+    SimulationsFiltersContext,
   );
 
   if (isLoading && simulations.length === 0) {
@@ -28,9 +40,18 @@ export const SimulationsMenu = ({ lastSimulationRef }: Props) => {
 
   if (simulations.length === 0) {
     return (
-      <div className="p-4 text-center text-sm text-muted-foreground">
-        {t(($) => $.sidebar.notFoundMessage)}
-      </div>
+      <Empty className="md:p-9">
+        <EmptyHeader>
+          <EmptyTitle className="text-base">
+            {t(($) => $.sidebar.notFoundMessage)}
+          </EmptyTitle>
+        </EmptyHeader>
+        {hasFilters && (
+          <Button variant="outline" onClick={onFiltersClear}>
+            Clear filters
+          </Button>
+        )}
+      </Empty>
     );
   }
 

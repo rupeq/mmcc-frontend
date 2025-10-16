@@ -6,9 +6,10 @@ import { Simulations, simulationsSearchSchema } from "@/features/simulations";
 import { CookieUtils } from "@/lib/api";
 
 const RouteComponent = () => {
-  const search = useSearch({ from: "/", select: (data) => data.search });
+  const searchParams = useSearch({ from: "/" });
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const defaultSearch = useMemo(() => search, []);
+  const defaultSearch = useMemo(() => searchParams, []);
 
   return <Simulations defaultSearch={defaultSearch} />;
 };

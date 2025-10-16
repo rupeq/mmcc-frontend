@@ -1,1 +1,1 @@
-export { SimulationsSearchContext } from "./SimulationsSearch";
+export { SimulationsFiltersContext } from "./SimulationFilters";
