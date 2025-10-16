@@ -20,6 +20,7 @@ interface SimulationsFiltersContextValue {
   setShowArchived: (showArchived?: true) => void;
   clearFilters: () => void;
   loadMore: () => void;
+  onDeleteSuccess?: () => void;
 }
 
 export const SimulationsFiltersContext =

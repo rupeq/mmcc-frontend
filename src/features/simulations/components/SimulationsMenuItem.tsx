@@ -1,19 +1,46 @@
+import { Trash2 } from "lucide-react";
 import { z } from "zod";
 
-import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui";
+import {
+  SidebarMenuAction,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui";
+import { useDeleteSimulationMutation } from "@/features/simulations/services";
 import { zSimulationConfigurationInfo } from "@/lib/api";
 
 interface Props {
   simulation: z.infer<typeof zSimulationConfigurationInfo>;
   isLastItem: boolean;
   lastSimulationRef: (node: HTMLLIElement | null) => void;
+  onDeleteSuccess?: () => void;
 }
 
 export const SimulationsMenuItem = ({
   simulation,
   isLastItem,
   lastSimulationRef,
+  onDeleteSuccess,
 }: Props) => {
+  const deleteMutation = useDeleteSimulationMutation({
+    onSuccess: () => {
+      onDeleteSuccess?.();
+    },
+  });
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (
+      window.confirm(
+        `Are you sure you want to delete "${simulation.name}"? This action cannot be undone.`,
+      )
+    ) {
+      deleteMutation.mutate(simulation.id);
+    }
+  };
+
   return (
     <SidebarMenuItem
       key={simulation.id}
@@ -23,8 +50,22 @@ export const SimulationsMenuItem = ({
         tooltip={simulation.description ?? undefined}
         className="cursor-pointer"
       >
-        <span className="truncate">{simulation.name}</span>
+        <span className="truncate">
+          {!simulation.is_active && <span>(Archived) </span>}
+          {simulation.name}
+        </span>
       </SidebarMenuButton>
+      {simulation.is_active && (
+        <SidebarMenuAction
+          className="cursor-pointer"
+          showOnHover={true}
+          onClick={handleDelete}
+          disabled={deleteMutation.isPending}
+          aria-label={`Delete ${simulation.name}`}
+        >
+          <Trash2 className="size-4" />
+        </SidebarMenuAction>
+      )}
     </SidebarMenuItem>
   );
 };

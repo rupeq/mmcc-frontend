@@ -26,7 +26,7 @@ export const SimulationsMenu = ({
   onFiltersClear,
 }: Props) => {
   const { t } = useTranslation(["simulations"]);
-  const { isFetchingNextPage, isLoading, simulations } = use(
+  const { isFetchingNextPage, isLoading, simulations, onDeleteSuccess } = use(
     SimulationsFiltersContext,
   );
 
@@ -63,6 +63,7 @@ export const SimulationsMenu = ({
           key={simulation.id}
           isLastItem={simulations.length - 1 === index}
           lastSimulationRef={lastSimulationRef}
+          onDeleteSuccess={onDeleteSuccess}
         />
       ))}
       {isFetchingNextPage &&

@@ -595,6 +595,10 @@ export const zGetSimulationConfigurationResponse = z.object({
     updated_at: z.optional(z.union([
         z.iso.datetime(),
         z.null()
+    ])),
+    is_active: z.optional(z.union([
+        z.boolean(),
+        z.null()
     ]))
 });
 
@@ -608,6 +612,7 @@ export const zGetSimulationConfigurationResponse = z.object({
  * description: The description of the simulation configuration.
  * created_at: The timestamp when the simulation configuration was created.
  * updated_at: The timestamp when the simulation configuration was last updated.
+ * is_active: Whether the simulation configuration is active or not.
  */
 export const zSimulationConfigurationInfo = z.object({
     id: z.uuid(),
@@ -625,6 +630,10 @@ export const zSimulationConfigurationInfo = z.object({
     ])),
     updated_at: z.optional(z.union([
         z.iso.datetime(),
+        z.null()
+    ])),
+    is_active: z.optional(z.union([
+        z.boolean(),
         z.null()
     ]))
 });
@@ -1051,6 +1060,12 @@ export const zSignupApiV1AuthorizationSignupPostData = z.object({
 export const zSignupApiV1AuthorizationSignupPostResponse = zSignUpResponseSchema;
 
 export const zRefreshAccessTokenApiV1AuthorizationAccessTokenPutData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export const zSignoutApiV1AuthorizationSignoutPostData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.never())

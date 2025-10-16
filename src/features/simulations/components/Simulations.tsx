@@ -5,6 +5,9 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui";
 import { SimulationsFiltersContext } from "@/features/simulations/contexts";
 import { useSimulationFilters } from "@/features/simulations/hooks";
 import { simulationsSearchSchema } from "@/features/simulations/schemas";
+import { queryClient } from "@/lib/tanstack";
+
+import { getSimulationsQueryKeys } from "../services";
 
 import { SimulationsSidebar } from "./SimulationsSidebar";
 
@@ -14,7 +17,6 @@ interface Props {
 
 export const Simulations = ({ defaultSearch }: Props) => {
   const navigate = useNavigate({ from: "/" });
-
   const {
     search,
     reportStatus,
@@ -37,6 +39,12 @@ export const Simulations = ({ defaultSearch }: Props) => {
         reportStatus: newReportStatus,
         showArchived: newIsActive || undefined,
       }),
+    });
+  };
+
+  const handleDeleteSuccess = () => {
+    queryClient.invalidateQueries({
+      queryKey: getSimulationsQueryKeys(),
     });
   };
 
@@ -73,6 +81,7 @@ export const Simulations = ({ defaultSearch }: Props) => {
       updateUrlWithFilters();
     },
     loadMore: () => simulationsQuery.fetchNextPage(),
+    onDeleteSuccess: handleDeleteSuccess,
   };
 
   return (
