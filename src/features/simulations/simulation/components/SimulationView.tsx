@@ -1,16 +1,11 @@
-import { format } from "date-fns";
 import { z } from "zod";
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
   Empty,
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
+  Separator,
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
@@ -23,8 +18,13 @@ import {
   zGetSimulationConfigurationResponse,
   zSimulationReport,
 } from "@/lib/api";
+import { cn } from "@/lib/styles";
 import { queryClient } from "@/lib/tanstack";
 
+import { DataCollectionSettings } from "./DataCollectionSettings";
+import { DistributionDisplay } from "./DistributionDisplay";
+import { SimulationMetadata } from "./SimulationMetadata";
+import { SimulationParameters } from "./SimulationParameters";
 import { SimulationReportCard } from "./SimulationReportCard";
 
 interface Props {
@@ -77,71 +77,79 @@ export const SimulationView = ({ simulation, reports }: Props) => {
       <SimulationsFiltersContext.Provider value={filtersContextValue}>
         <SimulationsSidebar activeSimulationId={simulation.id} />
         <SidebarInset>
-          <header className="flex h-16 items-center gap-2 border-b px-4">
+          <header className="sticky top-0 z-10 flex h-16 items-center gap-2 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4">
             <SidebarTrigger />
-            <div className="flex flex-col">
-              <h1 className="text-lg font-semibold">{simulation.name}</h1>
-              {simulation.description && (
-                <p className="text-sm text-muted-foreground">
-                  {simulation.description}
-                </p>
-              )}
+            <div className="flex flex-1 items-center justify-between gap-4 min-w-0">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="flex flex-col min-w-0">
+                  <h1 className="text-lg font-semibold truncate">
+                    {simulation.name}
+                  </h1>
+                  {simulation.description && (
+                    <p className="text-sm text-muted-foreground truncate">
+                      {simulation.description}
+                    </p>
+                  )}
+                </div>
+                <span
+                  className={cn(
+                    "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium shrink-0",
+                    simulation.is_active
+                      ? "bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-400"
+                      : "bg-gray-50 text-gray-700 dark:bg-gray-950 dark:text-gray-400",
+                  )}
+                >
+                  {simulation.is_active ? "Active" : "Archived"}
+                </span>
+              </div>
             </div>
           </header>
-          <main className="p-4 space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Configuration Details</CardTitle>
-                <CardDescription>
-                  Basic information about this simulation
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-sm font-medium">Created:</span>
-                  <span className="text-sm text-muted-foreground">
-                    {simulation.created_at
-                      ? format(new Date(simulation.created_at), "PPp")
-                      : "N/A"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm font-medium">Last Updated:</span>
-                  <span className="text-sm text-muted-foreground">
-                    {simulation.updated_at
-                      ? format(new Date(simulation.updated_at), "PPp")
-                      : "N/A"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm font-medium">Status:</span>
-                  <span className="text-sm text-muted-foreground">
-                    {simulation.is_active ? "Active" : "Archived"}
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
-
+          <main className="flex flex-1 flex-col gap-6 p-4 md:p-6">
+            <SimulationMetadata simulation={simulation} />
+            <SimulationParameters
+              parameters={simulation.simulation_parameters}
+            />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <DistributionDisplay
+                title="Arrival Process"
+                description="Distribution governing customer arrivals"
+                distribution={simulation.simulation_parameters.arrivalProcess}
+              />
+              <DistributionDisplay
+                title="Service Process"
+                description="Distribution governing service times"
+                distribution={simulation.simulation_parameters.serviceProcess}
+              />
+            </div>
+            <DataCollectionSettings
+              parameters={simulation.simulation_parameters}
+            />
+            <Separator className="my-2" />
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold">Reports</h2>
-                <span className="text-sm text-muted-foreground">
+                <div>
+                  <h2 className="text-xl font-semibold">Simulation Reports</h2>
+                  <p className="text-sm text-muted-foreground">
+                    Execution history and results for this configuration
+                  </p>
+                </div>
+                <span className="text-sm font-medium text-muted-foreground">
                   {activeReports.length}{" "}
                   {activeReports.length === 1 ? "report" : "reports"}
                 </span>
               </div>
-
               {activeReports.length === 0 ? (
                 <Empty>
                   <EmptyHeader>
                     <EmptyTitle>No Reports Yet</EmptyTitle>
                     <EmptyDescription>
-                      This simulation doesn't have any reports yet.
+                      This simulation configuration hasn't been executed yet.
+                      Reports will appear here once the simulation runs.
                     </EmptyDescription>
                   </EmptyHeader>
                 </Empty>
               ) : (
-                <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                   {activeReports.map((report) => (
                     <SimulationReportCard
                       key={report.id}

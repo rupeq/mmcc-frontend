@@ -17,7 +17,9 @@ const SIGNIN_PATH = "/signin";
 
 const redirectToSignIn = () => {
   CookieUtils.clearAuthCookies();
-  window.location.href = SIGNIN_PATH;
+  if (confirm("Refresh failed")) {
+    window.location.href = SIGNIN_PATH;
+  }
 };
 
 const isRefreshTokenRequest = (url?: string): boolean => {

@@ -147,7 +147,10 @@ export const zTruncatedNormalParams = z.object({
     mu: z.number(),
     sigma: z.number().gt(0),
     a: z.optional(z.number()).default(0),
-    b: z.optional(z.number())
+    b: z.optional(z.union([
+        z.number(),
+        z.null()
+    ]))
 });
 
 /**
@@ -206,7 +209,7 @@ export const zEmpiricalParams = z.object({
 /**
  * SimulationRequest
  */
-export const zSimulationRequest = z.object({
+export const zSimulationRequestInput = z.object({
     numChannels: z.int().gt(0),
     simulationTime: z.number().gt(0),
     numReplications: z.optional(z.int().gte(1)).default(1),
@@ -270,7 +273,7 @@ export const zCreateSimulationRequest = z.object({
         z.string(),
         z.null()
     ])),
-    simulationParameters: zSimulationRequest
+    simulationParameters: zSimulationRequestInput
 });
 
 /**
@@ -575,6 +578,52 @@ export const zGetSimulationConfigurationReportsResponse = z.object({
 });
 
 /**
+ * SimulationRequest
+ */
+export const zSimulationRequestOutput = z.object({
+    numChannels: z.int().gt(0),
+    simulationTime: z.number().gt(0),
+    numReplications: z.optional(z.int().gte(1)).default(1),
+    arrivalProcess: z.union([
+        zExponentialParams,
+        zUniformParams,
+        zTruncatedNormalParams,
+        zGammaParams,
+        zWeibullParams,
+        zEmpiricalParams
+    ]),
+    serviceProcess: z.union([
+        zExponentialParams,
+        zUniformParams,
+        zTruncatedNormalParams,
+        zGammaParams,
+        zWeibullParams,
+        zEmpiricalParams
+    ]),
+    arrivalSchedule: z.optional(z.union([
+        z.array(zArrivalScheduleItem),
+        z.null()
+    ])),
+    randomSeed: z.optional(z.union([
+        z.int(),
+        z.null()
+    ])),
+    collectGanttData: z.optional(z.boolean()).default(true),
+    collectServiceTimes: z.optional(z.boolean()).default(true),
+    maxGanttItems: z.optional(z.union([
+        z.int().gte(0),
+        z.null()
+    ])),
+    maxServiceTimeSamples: z.optional(z.union([
+        z.int().gte(0),
+        z.null()
+    ])),
+    collectTemporalProfile: z.optional(z.boolean()).default(false),
+    temporalWindowSize: z.optional(z.number().gt(0)).default(10),
+    temporalSnapshotInterval: z.optional(z.number().gt(0)).default(1)
+});
+
+/**
  * GetSimulationConfigurationResponse
  * Represent the response for getting a single of simulation configuration.
  */
@@ -599,7 +648,8 @@ export const zGetSimulationConfigurationResponse = z.object({
     is_active: z.optional(z.union([
         z.boolean(),
         z.null()
-    ]))
+    ])),
+    simulation_parameters: zSimulationRequestOutput
 });
 
 /**
@@ -855,7 +905,7 @@ export const zHttpValidationError = z.object({
  * Request for channel optimization
  */
 export const zOptimizationRequest = z.object({
-    base_request: zSimulationRequest,
+    base_request: zSimulationRequestInput,
     optimizationType: z.enum([
         'binary_search',
         'cost_minimization',
