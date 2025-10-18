@@ -1,4 +1,5 @@
 import { Activity, Copy, RotateCcw } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
 import {
@@ -39,46 +40,58 @@ const MetricCard = ({
   </div>
 );
 
-export const SimulationParameters = ({ parameters }: Props) => (
-  <Card>
-    <CardHeader>
-      <CardTitle>System Configuration</CardTitle>
-      <CardDescription>
-        Core parameters for the queueing system simulation
-      </CardDescription>
-    </CardHeader>
-    <CardContent>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <MetricCard
-          icon={Copy}
-          label="Service Channels"
-          value={parameters.numChannels}
-        />
-        <MetricCard
-          icon={Activity}
-          label="Simulation Time"
-          value={parameters.simulationTime.toLocaleString()}
-          unit="time units"
-        />
-        <MetricCard
-          icon={RotateCcw}
-          label="Replications"
-          value={parameters.numReplications}
-        />
-      </div>
-      {parameters.randomSeed !== null &&
-        parameters.randomSeed !== undefined && (
-          <div className="mt-4 pt-4 border-t">
-            <div className="flex items-center justify-between rounded-lg bg-muted/40 p-3">
-              <span className="text-sm font-medium text-muted-foreground">
-                Random Seed
-              </span>
-              <code className="rounded bg-background px-2 py-1 text-sm font-mono">
-                {parameters.randomSeed}
-              </code>
+export const SimulationParameters = ({ parameters }: Props) => {
+  const { t } = useTranslation(["simulations"]);
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          {t(($) => $.simulationView.sections.systemConfig.title)}
+        </CardTitle>
+        <CardDescription>
+          {t(($) => $.simulationView.sections.systemConfig.description)}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <MetricCard
+            icon={Copy}
+            label={t(
+              ($) => $.simulationView.sections.systemConfig.serviceChannels,
+            )}
+            value={parameters.numChannels}
+          />
+          <MetricCard
+            icon={Activity}
+            label={t(
+              ($) => $.simulationView.sections.systemConfig.simulationTime,
+            )}
+            value={parameters.simulationTime.toLocaleString()}
+            unit={t(($) => $.simulationView.sections.systemConfig.timeUnits)}
+          />
+          <MetricCard
+            icon={RotateCcw}
+            label={t(
+              ($) => $.simulationView.sections.systemConfig.replications,
+            )}
+            value={parameters.numReplications}
+          />
+        </div>
+        {parameters.randomSeed !== null &&
+          parameters.randomSeed !== undefined && (
+            <div className="mt-4 pt-4 border-t">
+              <div className="flex items-center justify-between rounded-lg bg-muted/40 p-3">
+                <span className="text-sm font-medium text-muted-foreground">
+                  {t(($) => $.simulationView.sections.systemConfig.randomSeed)}
+                </span>
+                <code className="rounded bg-background px-2 py-1 text-sm font-mono">
+                  {parameters.randomSeed}
+                </code>
+              </div>
             </div>
-          </div>
-        )}
-    </CardContent>
-  </Card>
-);
+          )}
+      </CardContent>
+    </Card>
+  );
+};

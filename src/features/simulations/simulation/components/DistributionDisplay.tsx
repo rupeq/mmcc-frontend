@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
 import {
@@ -50,16 +51,18 @@ export const DistributionDisplay = ({
   description,
   distribution,
 }: Props) => {
+  const { t } = useTranslation(["simulations"]);
+
   const getDistributionName = (type: string) => {
-    const names: Record<string, string> = {
-      exponential: "Exponential",
-      uniform: "Uniform",
-      gamma: "Gamma",
-      weibull: "Weibull",
-      truncated_normal: "Truncated Normal",
-      empirical: "Empirical",
+    const typeMap: Record<string, string> = {
+      exponential: t(($) => $.distributions.types.exponential),
+      uniform: t(($) => $.distributions.types.uniform),
+      gamma: t(($) => $.distributions.types.gamma),
+      weibull: t(($) => $.distributions.types.weibull),
+      truncated_normal: t(($) => $.distributions.types.truncatedNormal),
+      empirical: t(($) => $.distributions.types.empirical),
     };
-    return names[type] || type;
+    return typeMap[type] || type;
   };
 
   const renderParameters = () => {
@@ -67,24 +70,23 @@ export const DistributionDisplay = ({
       case "exponential":
         return (
           <ParameterRow
-            label="Rate (λ)"
+            label={t(($) => $.distributions.parameters.rate)}
             value={
               "rate" in distribution ? distribution.rate.toFixed(4) : undefined
             }
           />
         );
-
       case "uniform":
         return (
           <>
             <ParameterRow
-              label="Lower Bound (a)"
+              label={t(($) => $.distributions.parameters.lowerBound)}
               value={
                 "a" in distribution ? distribution.a.toFixed(4) : undefined
               }
             />
             <ParameterRow
-              label="Upper Bound (b)"
+              label={t(($) => $.distributions.parameters.upperBound)}
               value={
                 "b" in distribution &&
                 distribution.b !== null &&
@@ -95,18 +97,17 @@ export const DistributionDisplay = ({
             />
           </>
         );
-
       case "gamma":
         return (
           <>
             <ParameterRow
-              label="Shape (k)"
+              label={t(($) => $.distributions.parameters.shape)}
               value={
                 "k" in distribution ? distribution.k.toFixed(4) : undefined
               }
             />
             <ParameterRow
-              label="Scale (θ)"
+              label={t(($) => $.distributions.parameters.scale)}
               value={
                 "theta" in distribution
                   ? distribution.theta.toFixed(4)
@@ -115,18 +116,17 @@ export const DistributionDisplay = ({
             />
           </>
         );
-
       case "weibull":
         return (
           <>
             <ParameterRow
-              label="Shape (k)"
+              label={t(($) => $.distributions.parameters.shape)}
               value={
                 "k" in distribution ? distribution.k.toFixed(4) : undefined
               }
             />
             <ParameterRow
-              label="Scale (λ)"
+              label={t(($) => $.distributions.parameters.scaleWeibull)}
               value={
                 "lambda_param" in distribution
                   ? distribution.lambda_param.toFixed(4)
@@ -135,18 +135,17 @@ export const DistributionDisplay = ({
             />
           </>
         );
-
       case "truncated_normal":
         return (
           <>
             <ParameterRow
-              label="Mean (μ)"
+              label={t(($) => $.distributions.parameters.mean)}
               value={
                 "mu" in distribution ? distribution.mu.toFixed(4) : undefined
               }
             />
             <ParameterRow
-              label="Std Dev (σ)"
+              label={t(($) => $.distributions.parameters.standardDeviation)}
               value={
                 "sigma" in distribution
                   ? distribution.sigma.toFixed(4)
@@ -154,13 +153,13 @@ export const DistributionDisplay = ({
               }
             />
             <ParameterRow
-              label="Lower Bound (a)"
+              label={t(($) => $.distributions.parameters.lowerBound)}
               value={
                 "a" in distribution ? distribution.a?.toFixed(4) : undefined
               }
             />
             <ParameterRow
-              label="Upper Bound (b)"
+              label={t(($) => $.distributions.parameters.upperBound)}
               value={
                 "b" in distribution &&
                 distribution.b !== null &&
@@ -171,35 +170,33 @@ export const DistributionDisplay = ({
             />
           </>
         );
-
       case "empirical":
         return (
           <>
             <ParameterRow
-              label="Data Points"
+              label={t(($) => $.distributions.parameters.observedData)}
               value={
                 "data" in distribution ? distribution.data?.length : undefined
               }
             />
             <ParameterRow
-              label="Method"
+              label={t(($) => $.distributions.parameters.samplingMethod)}
               value={
                 "method" in distribution
                   ? distribution.method === "kde"
-                    ? "Kernel Density Estimation"
-                    : "Inverse Transform (ECDF)"
+                    ? t(($) => $.distributions.parameters.kde)
+                    : t(($) => $.distributions.parameters.inverseTransform)
                   : undefined
               }
             />
             {"bandwidth" in distribution && distribution.bandwidth && (
               <ParameterRow
-                label="KDE Bandwidth"
+                label={t(($) => $.distributions.parameters.kdeBandwidth)}
                 value={distribution.bandwidth.toFixed(4)}
               />
             )}
           </>
         );
-
       default:
         return null;
     }
@@ -215,7 +212,7 @@ export const DistributionDisplay = ({
       </CardHeader>
       <CardContent className="space-y-1">
         <ParameterRow
-          label="Distribution Type"
+          label={t(($) => $.distributions.arrivalProcess.label)}
           value={getDistributionName(distribution.distribution || "")}
         />
         {renderParameters()}

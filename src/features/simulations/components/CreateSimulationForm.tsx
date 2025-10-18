@@ -7,6 +7,7 @@ import {
   useForm,
   type UseFormReturn,
 } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 import {
   Button,
@@ -42,6 +43,8 @@ interface CreateSimulationStepProps {
 }
 
 const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
+  const { t } = useTranslation(["simulations"]);
+
   if (step === 0) {
     return (
       <div className="space-y-4" key={step}>
@@ -50,9 +53,12 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Simulation Name</FormLabel>
+              <FormLabel>{t(($) => $.createForm.fields.name.label)}</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="System Test" />
+                <Input
+                  {...field}
+                  placeholder={t(($) => $.createForm.fields.name.placeholder)}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -63,12 +69,16 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description (Optional)</FormLabel>
+              <FormLabel>
+                {t(($) => $.createForm.fields.description.label)}
+              </FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   value={field.value ?? ""}
-                  placeholder="Testing loss system performance..."
+                  placeholder={t(
+                    ($) => $.createForm.fields.description.placeholder,
+                  )}
                 />
               </FormControl>
               <FormMessage />
@@ -87,7 +97,9 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
           name="simulationParameters.numChannels"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Number of Channels</FormLabel>
+              <FormLabel>
+                {t(($) => $.createForm.fields.numChannels.label)}
+              </FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -99,7 +111,7 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
                 />
               </FormControl>
               <FormDescription>
-                The number of service channels available
+                {t(($) => $.createForm.fields.numChannels.description)}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -110,7 +122,9 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
           name="simulationParameters.simulationTime"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Simulation Time</FormLabel>
+              <FormLabel>
+                {t(($) => $.createForm.fields.simulationTime.label)}
+              </FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -123,7 +137,7 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
                 />
               </FormControl>
               <FormDescription>
-                Total simulation time in time units
+                {t(($) => $.createForm.fields.simulationTime.description)}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -134,7 +148,9 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
           name="simulationParameters.numReplications"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Number of Replications</FormLabel>
+              <FormLabel>
+                {t(($) => $.createForm.fields.numReplications.label)}
+              </FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -146,7 +162,7 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
                 />
               </FormControl>
               <FormDescription>
-                Run multiple times for statistical accuracy
+                {t(($) => $.createForm.fields.numReplications.description)}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -160,20 +176,24 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
     return (
       <div className="space-y-6" key={step}>
         <div>
-          <h3 className="text-lg font-medium mb-4">Arrival Process</h3>
+          <h3 className="text-lg font-medium mb-4">
+            {t(($) => $.distributions.arrivalProcess.title)}
+          </h3>
           <DistributionSelector
             form={form}
             fieldPrefix="arrivalProcess"
-            label="Distribution Type"
+            label={t(($) => $.distributions.arrivalProcess.label)}
           />
         </div>
         <Separator />
         <div>
-          <h3 className="text-lg font-medium mb-4">Service Process</h3>
+          <h3 className="text-lg font-medium mb-4">
+            {t(($) => $.distributions.serviceProcess.title)}
+          </h3>
           <DistributionSelector
             form={form}
             fieldPrefix="serviceProcess"
-            label="Distribution Type"
+            label={t(($) => $.distributions.serviceProcess.label)}
           />
         </div>
       </div>
@@ -188,13 +208,17 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
           name="simulationParameters.randomSeed"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Random Seed (Optional)</FormLabel>
+              <FormLabel>
+                {t(($) => $.createForm.fields.randomSeed.label)}
+              </FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   value={field.value ?? undefined}
                   type="number"
-                  placeholder="Leave empty for random"
+                  placeholder={t(
+                    ($) => $.createForm.fields.randomSeed.placeholder,
+                  )}
                   onChange={(e) => {
                     const value = e.target.value;
                     field.onChange(value ? parseInt(value, 10) : null);
@@ -202,7 +226,7 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
                 />
               </FormControl>
               <FormDescription>
-                Set a seed for reproducible results
+                {t(($) => $.createForm.fields.randomSeed.description)}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -220,7 +244,9 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
                   ref={field.ref}
                 />
               </FormControl>
-              <FormLabel className="!mt-0">Collect Gantt Chart Data</FormLabel>
+              <FormLabel className="!mt-0">
+                {t(($) => $.createForm.fields.collectGanttData)}
+              </FormLabel>
             </FormItem>
           )}
         />
@@ -236,7 +262,9 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
                   ref={field.ref}
                 />
               </FormControl>
-              <FormLabel className="!mt-0">Collect Service Times</FormLabel>
+              <FormLabel className="!mt-0">
+                {t(($) => $.createForm.fields.collectServiceTimes)}
+              </FormLabel>
             </FormItem>
           )}
         />
@@ -252,7 +280,9 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
                   ref={field.ref}
                 />
               </FormControl>
-              <FormLabel className="!mt-0">Collect Temporal Profile</FormLabel>
+              <FormLabel className="!mt-0">
+                {t(($) => $.createForm.fields.collectTemporalProfile)}
+              </FormLabel>
             </FormItem>
           )}
         />
@@ -264,6 +294,7 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
 };
 
 export const CreateSimulationForm = () => {
+  const { t } = useTranslation(["simulations"]);
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState<number>(0);
 
@@ -290,19 +321,15 @@ export const CreateSimulationForm = () => {
     },
   });
 
+  const steps = [
+    "basicInfo",
+    "systemConfig",
+    "distributions",
+    "advancedOptions",
+  ] as const;
+
   const getStepTitle = () => {
-    switch (currentStep) {
-      case 0:
-        return "Basic Information";
-      case 1:
-        return "System Configuration";
-      case 2:
-        return "Distributions";
-      case 3:
-        return "Advanced Options";
-      default:
-        return "";
-    }
+    return t(($) => $.createForm.steps[steps[currentStep]]);
   };
 
   const createMutation = useCreateSimulationMutation({
@@ -325,9 +352,13 @@ export const CreateSimulationForm = () => {
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Create New Simulation</DialogTitle>
+        <DialogTitle>{t(($) => $.createForm.title)}</DialogTitle>
         <DialogDescription>
-          Step {currentStep + 1} of 4: {getStepTitle()}
+          {t(($) => $.createForm.stepLabel, {
+            current: currentStep + 1,
+            total: 4,
+            title: getStepTitle(),
+          })}
         </DialogDescription>
       </DialogHeader>
       <div>
@@ -348,7 +379,7 @@ export const CreateSimulationForm = () => {
           onClick={() => setCurrentStep((prev) => Math.max(0, prev - 1))}
           disabled={currentStep === 0}
         >
-          Previous
+          {t(($) => $.createForm.buttons.previous)}
         </Button>
         {currentStep < 3 ? (
           <Button
@@ -356,7 +387,7 @@ export const CreateSimulationForm = () => {
             onClick={() => setCurrentStep((prev) => prev + 1)}
             disabled={form.formState.isSubmitting || !form.formState.isValid}
           >
-            Next
+            {t(($) => $.createForm.buttons.next)}
           </Button>
         ) : (
           <Button
@@ -365,7 +396,7 @@ export const CreateSimulationForm = () => {
             form="CreateSimulationForm"
             isLoading={createMutation.isPending}
           >
-            Create Simulation
+            {t(($) => $.createForm.buttons.create)}
           </Button>
         )}
       </DialogFooter>

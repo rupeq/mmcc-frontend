@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { type UseFormReturn } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 import {
   FormControl,
@@ -27,6 +28,7 @@ export const EmpiricalDistribution = ({
   form,
   fieldPrefix,
 }: EmpiricalDistributionProps) => {
+  const { t } = useTranslation(["simulations"]);
   const [dataInput, setDataInput] = useState("");
   const [error, setError] = useState<string | null>(null);
 
@@ -92,12 +94,16 @@ export const EmpiricalDistribution = ({
         name={`simulationParameters.${fieldPrefix}.data`}
         render={() => (
           <FormItem>
-            <FormLabel>Observed Data</FormLabel>
+            <FormLabel>
+              {t(($) => $.distributions.parameters.observedData)}
+            </FormLabel>
             <FormControl>
               <div className="space-y-2">
                 <textarea
                   className="flex min-h-[120px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
-                  placeholder="Enter values separated by commas, spaces, or newlines&#10;Example: 1.2, 1.5, 2.1, 1.8, 2.3"
+                  placeholder={t(
+                    ($) => $.distributions.parameters.dataPlaceholder,
+                  )}
                   value={dataInput}
                   onChange={(e) => handleDataChange(e.target.value)}
                 />
@@ -106,7 +112,7 @@ export const EmpiricalDistribution = ({
                     htmlFor={`simulationParameters.${fieldPrefix}-file-upload`}
                     className="inline-flex h-8 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md border border-input bg-background px-3 text-sm font-medium shadow-xs transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
-                    Upload from file
+                    {t(($) => $.distributions.parameters.uploadFile)}
                   </label>
                   <input
                     id={`simulationParameters.${fieldPrefix}-file-upload`}
@@ -117,7 +123,9 @@ export const EmpiricalDistribution = ({
                   />
                   {currentData && currentData.length > 0 && (
                     <span className="text-xs text-muted-foreground">
-                      {currentData.length} data points loaded
+                      {t(($) => $.distributions.parameters.dataPointsLoaded, {
+                        count: currentData.length,
+                      })}
                     </span>
                   )}
                 </div>
@@ -125,20 +133,20 @@ export const EmpiricalDistribution = ({
             </FormControl>
             {error && <p className="text-sm text-red-500">{error}</p>}
             <FormDescription>
-              Enter observed values (min 2, max 100,000). Supports comma, space,
-              or newline separation.
+              {t(($) => $.distributions.parameters.dataDescription)}
             </FormDescription>
             <FormMessage />
           </FormItem>
         )}
       />
-
       <FormField
         control={form.control}
         name={`simulationParameters.${fieldPrefix}.method`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Sampling Method</FormLabel>
+            <FormLabel>
+              {t(($) => $.distributions.parameters.samplingMethod)}
+            </FormLabel>
             <Select onValueChange={field.onChange} value={field.value}>
               <FormControl>
                 <SelectTrigger>
@@ -147,25 +155,28 @@ export const EmpiricalDistribution = ({
               </FormControl>
               <SelectContent>
                 <SelectItem value="inverse_transform">
-                  Inverse Transform (ECDF)
+                  {t(($) => $.distributions.parameters.inverseTransform)}
                 </SelectItem>
-                <SelectItem value="kde">Kernel Density Estimation</SelectItem>
+                <SelectItem value="kde">
+                  {t(($) => $.distributions.parameters.kde)}
+                </SelectItem>
               </SelectContent>
             </Select>
             <FormDescription>
-              Inverse Transform uses empirical CDF, KDE smooths the distribution
+              {t(($) => $.distributions.parameters.methodDescription)}
             </FormDescription>
             <FormMessage />
           </FormItem>
         )}
       />
-
       <FormField
         control={form.control}
         name={`simulationParameters.${fieldPrefix}.bandwidth`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>KDE Bandwidth (Optional)</FormLabel>
+            <FormLabel>
+              {t(($) => $.distributions.parameters.kdeBandwidth)}
+            </FormLabel>
             <FormControl>
               <Input
                 type="number"
@@ -180,7 +191,7 @@ export const EmpiricalDistribution = ({
               />
             </FormControl>
             <FormDescription>
-              Leave empty for automatic bandwidth selection (Scott's rule)
+              {t(($) => $.distributions.parameters.bandwidthDescription)}
             </FormDescription>
             <FormMessage />
           </FormItem>

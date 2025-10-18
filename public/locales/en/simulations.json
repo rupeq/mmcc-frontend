@@ -10,6 +10,163 @@
       "totalSimulations_many": "{{count}} simulations",
       "nextPageLabel": " • Scroll for more"
     },
-    "notFoundMessage": "No simulations found"
+    "notFoundMessage": "No simulations found",
+    "createButton": "Create Simulation"
+  },
+  "filters": {
+    "title": "Filters",
+    "description": "Refine your simulation search",
+    "reportStatus": "Report Status",
+    "allStatuses": "All Statuses",
+    "status": "Status",
+    "includeArchived": "Include archived",
+    "includeArchivedDescription": "Show archived simulations in results",
+    "clearAll": "Clear All",
+    "applyFilters": "Apply Filters"
+  },
+  "createForm": {
+    "title": "Create New Simulation",
+    "stepLabel": "Step {{current}} of {{total}}: {{title}}",
+    "steps": {
+      "basicInfo": "Basic Information",
+      "systemConfig": "System Configuration",
+      "distributions": "Distributions",
+      "advancedOptions": "Advanced Options"
+    },
+    "fields": {
+      "name": {
+        "label": "Simulation Name",
+        "placeholder": "System Test"
+      },
+      "description": {
+        "label": "Description (Optional)",
+        "placeholder": "Testing loss system performance..."
+      },
+      "numChannels": {
+        "label": "Number of Channels",
+        "description": "The number of service channels available"
+      },
+      "simulationTime": {
+        "label": "Simulation Time",
+        "description": "Total simulation time in time units"
+      },
+      "numReplications": {
+        "label": "Number of Replications",
+        "description": "Run multiple times for statistical accuracy"
+      },
+      "randomSeed": {
+        "label": "Random Seed (Optional)",
+        "placeholder": "Leave empty for random",
+        "description": "Set a seed for reproducible results"
+      },
+      "collectGanttData": "Collect Gantt Chart Data",
+      "collectServiceTimes": "Collect Service Times",
+      "collectTemporalProfile": "Collect Temporal Profile"
+    },
+    "buttons": {
+      "previous": "Previous",
+      "next": "Next",
+      "create": "Create Simulation"
+    }
+  },
+  "distributions": {
+    "types": {
+      "exponential": "Exponential",
+      "uniform": "Uniform",
+      "gamma": "Gamma",
+      "weibull": "Weibull",
+      "truncatedNormal": "Truncated Normal",
+      "empirical": "Empirical"
+    },
+    "arrivalProcess": {
+      "title": "Arrival Process",
+      "label": "Distribution Type",
+      "description": "Distribution governing customer arrivals"
+    },
+    "serviceProcess": {
+      "title": "Service Process",
+      "label": "Distribution Type",
+      "description": "Distribution governing service times"
+    },
+    "parameters": {
+      "rate": "Rate (λ)",
+      "lowerBound": "Lower Bound (a)",
+      "upperBound": "Upper Bound (b)",
+      "shape": "Shape (k)",
+      "scale": "Scale (θ)",
+      "scaleWeibull": "Scale (λ)",
+      "mean": "Mean (μ)",
+      "standardDeviation": "Standard Deviation (σ)",
+      "observedData": "Observed Data",
+      "samplingMethod": "Sampling Method",
+      "inverseTransform": "Inverse Transform (ECDF)",
+      "kde": "Kernel Density Estimation",
+      "kdeBandwidth": "KDE Bandwidth (Optional)",
+      "dataPlaceholder": "Enter values separated by commas, spaces, or newlines\nExample: 1.2, 1.5, 2.1, 1.8, 2.3",
+      "uploadFile": "Upload from file",
+      "dataPointsLoaded": "{{count}} data points loaded",
+      "dataDescription": "Enter observed values (min 2, max 100,000). Supports comma, space, or newline separation.",
+      "methodDescription": "Inverse Transform uses empirical CDF, KDE smooths the distribution",
+      "bandwidthDescription": "Leave empty for automatic bandwidth selection (Scott's rule)"
+    }
+  },
+  "simulationView": {
+    "header": {
+      "active": "Active",
+      "archived": "Archived"
+    },
+    "sections": {
+      "metadata": {
+        "created": "Created",
+        "updated": "Updated"
+      },
+      "systemConfig": {
+        "title": "System Configuration",
+        "description": "Core parameters for the queueing system simulation",
+        "serviceChannels": "Service Channels",
+        "simulationTime": "Simulation Time",
+        "timeUnits": "time units",
+        "replications": "Replications",
+        "randomSeed": "Random Seed"
+      },
+      "dataCollection": {
+        "title": "Data Collection Settings",
+        "description": "Configuration for data collection during simulation",
+        "ganttData": "Gantt Chart Data",
+        "serviceTimes": "Service Times",
+        "temporalProfile": "Temporal Profile",
+        "maxItems": "Max {{count}} items",
+        "maxSamples": "Max {{count}} samples",
+        "window": "Window: {{windowSize}}, Interval: {{interval}}"
+      },
+      "reports": {
+        "title": "Simulation Reports",
+        "description": "Execution history and results for this configuration",
+        "count_one": "{{count}} report",
+        "count_other": "{{count}} reports",
+        "reportNumber": "Report #{{id}}",
+        "createdAt": "Created {{date}}",
+        "completed": "Completed:",
+        "error": "Error:",
+        "resultsAvailable": "Results available",
+        "noReports": {
+          "title": "No Reports Yet",
+          "description": "This simulation configuration hasn't been executed yet. Reports will appear here once the simulation runs."
+        }
+      }
+    },
+    "statuses": {
+      "pending": "Pending",
+      "running": "Running",
+      "completed": "Completed",
+      "failed": "Failed",
+      "cancelled": "Cancelled"
+    }
+  },
+  "menu": {
+    "selectSimulation": "Select a simulation from the sidebar to view details",
+    "deleteConfirm": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+    "clearFilters": "Clear filters",
+    "archived": "(Archived)"
   }
 }

@@ -50,7 +50,7 @@ export const SimulationsMenu = ({
         </EmptyHeader>
         {hasFilters && (
           <Button variant="outline" onClick={onFiltersClear}>
-            Clear filters
+            {t(($) => $.menu.clearFilters)}
           </Button>
         )}
       </Empty>

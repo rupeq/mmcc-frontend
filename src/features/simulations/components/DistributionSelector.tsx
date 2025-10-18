@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { type UseFormReturn } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 import {
   FormControl,
@@ -25,15 +26,6 @@ import {
   WeibullDistribution,
 } from "./distributions";
 
-const distributionOptions = [
-  { value: "exponential", label: "Exponential" },
-  { value: "uniform", label: "Uniform" },
-  { value: "gamma", label: "Gamma" },
-  { value: "weibull", label: "Weibull" },
-  { value: "truncated_normal", label: "Truncated Normal" },
-  { value: "empirical", label: "Empirical" },
-] as const;
-
 interface DistributionSelectorProps {
   form: UseFormReturn<CreateSimulationFormData>;
   fieldPrefix: "arrivalProcess" | "serviceProcess";
@@ -45,9 +37,25 @@ export const DistributionSelector = ({
   fieldPrefix,
   label,
 }: DistributionSelectorProps) => {
+  const { t } = useTranslation(["simulations"]);
   const [dist, setDist] = useState(
     form.getValues(`simulationParameters.${fieldPrefix}`),
   );
+
+  const distributionOptions = [
+    {
+      value: "exponential",
+      label: t(($) => $.distributions.types.exponential),
+    },
+    { value: "uniform", label: t(($) => $.distributions.types.uniform) },
+    { value: "gamma", label: t(($) => $.distributions.types.gamma) },
+    { value: "weibull", label: t(($) => $.distributions.types.weibull) },
+    {
+      value: "truncated_normal",
+      label: t(($) => $.distributions.types.truncatedNormal),
+    },
+    { value: "empirical", label: t(($) => $.distributions.types.empirical) },
+  ] as const;
 
   const handleDistributionChange = (value: string) => {
     if (value === "exponential") {
@@ -123,7 +131,6 @@ export const DistributionSelector = ({
           </FormItem>
         )}
       />
-
       {dist.distribution === "exponential" && (
         <ExponentialDistribution form={form} fieldPrefix={fieldPrefix} />
       )}

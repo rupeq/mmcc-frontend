@@ -3,8 +3,8 @@ import type { HttpBackendOptions } from "i18next-http-backend";
 
 export const fallbackLanguage = "ru";
 export const supportedLanguages = ["en", "ru"];
-export const namespaces = ["common", "authentication", "simulations"];
-export const defaultNamespace = "common";
+export const namespaces = ["authentication", "simulations"];
+export const defaultNamespace = "authentication";
 
 export const i18nConfiguration: InitOptions<HttpBackendOptions> = {
   ns: namespaces,
@@ -20,9 +20,9 @@ export const i18nConfiguration: InitOptions<HttpBackendOptions> = {
   },
   detection: {
     order: [
-      "querystring",
-      "cookie",
       "localStorage",
+      "cookie",
+      "querystring",
       "sessionStorage",
       "navigator",
       "htmlTag",
@@ -32,6 +32,7 @@ export const i18nConfiguration: InitOptions<HttpBackendOptions> = {
     lookupLocalStorage: "i18nextLng",
     lookupSessionStorage: "i18nextLng",
     caches: ["localStorage", "cookie"],
+    cookieMinutes: 10080,
   },
   react: {
     useSuspense: true,

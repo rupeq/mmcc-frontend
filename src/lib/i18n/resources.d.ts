@@ -23,11 +23,112 @@ interface Resources {
       "title": "Create a new account"
     }
   },
-  "common": {
-
-  },
   "simulations": {
+    "createForm": {
+      "buttons": {
+        "create": "Create Simulation",
+        "next": "Next",
+        "previous": "Previous"
+      },
+      "fields": {
+        "collectGanttData": "Collect Gantt Chart Data",
+        "collectServiceTimes": "Collect Service Times",
+        "collectTemporalProfile": "Collect Temporal Profile",
+        "description": {
+          "label": "Description (Optional)",
+          "placeholder": "Testing loss system performance..."
+        },
+        "name": {
+          "label": "Simulation Name",
+          "placeholder": "System Test"
+        },
+        "numChannels": {
+          "description": "The number of service channels available",
+          "label": "Number of Channels"
+        },
+        "numReplications": {
+          "description": "Run multiple times for statistical accuracy",
+          "label": "Number of Replications"
+        },
+        "randomSeed": {
+          "description": "Set a seed for reproducible results",
+          "label": "Random Seed (Optional)",
+          "placeholder": "Leave empty for random"
+        },
+        "simulationTime": {
+          "description": "Total simulation time in time units",
+          "label": "Simulation Time"
+        }
+      },
+      "stepLabel": "Step {{current}} of {{total}}: {{title}}",
+      "steps": {
+        "advancedOptions": "Advanced Options",
+        "basicInfo": "Basic Information",
+        "distributions": "Distributions",
+        "systemConfig": "System Configuration"
+      },
+      "title": "Create New Simulation"
+    },
+    "distributions": {
+      "arrivalProcess": {
+        "description": "Distribution governing customer arrivals",
+        "label": "Distribution Type",
+        "title": "Arrival Process"
+      },
+      "parameters": {
+        "bandwidthDescription": "Leave empty for automatic bandwidth selection (Scott's rule)",
+        "dataDescription": "Enter observed values (min 2, max 100,000). Supports comma, space, or newline separation.",
+        "dataPlaceholder": "Enter values separated by commas, spaces, or newlines\nExample: 1.2, 1.5, 2.1, 1.8, 2.3",
+        "dataPointsLoaded": "{{count}} data points loaded",
+        "inverseTransform": "Inverse Transform (ECDF)",
+        "kde": "Kernel Density Estimation",
+        "kdeBandwidth": "KDE Bandwidth (Optional)",
+        "lowerBound": "Lower Bound (a)",
+        "mean": "Mean (μ)",
+        "methodDescription": "Inverse Transform uses empirical CDF, KDE smooths the distribution",
+        "observedData": "Observed Data",
+        "rate": "Rate (λ)",
+        "samplingMethod": "Sampling Method",
+        "scale": "Scale (θ)",
+        "scaleWeibull": "Scale (λ)",
+        "shape": "Shape (k)",
+        "standardDeviation": "Standard Deviation (σ)",
+        "uploadFile": "Upload from file",
+        "upperBound": "Upper Bound (b)"
+      },
+      "serviceProcess": {
+        "description": "Distribution governing service times",
+        "label": "Distribution Type",
+        "title": "Service Process"
+      },
+      "types": {
+        "empirical": "Empirical",
+        "exponential": "Exponential",
+        "gamma": "Gamma",
+        "truncatedNormal": "Truncated Normal",
+        "uniform": "Uniform",
+        "weibull": "Weibull"
+      }
+    },
+    "filters": {
+      "allStatuses": "All Statuses",
+      "applyFilters": "Apply Filters",
+      "clearAll": "Clear All",
+      "description": "Refine your simulation search",
+      "includeArchived": "Include archived",
+      "includeArchivedDescription": "Show archived simulations in results",
+      "reportStatus": "Report Status",
+      "status": "Status",
+      "title": "Filters"
+    },
+    "menu": {
+      "archived": "(Archived)",
+      "clearFilters": "Clear filters",
+      "deleteConfirm": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+      "selectSimulation": "Select a simulation from the sidebar to view details"
+    },
     "sidebar": {
+      "createButton": "Create Simulation",
       "notFoundMessage": "No simulations found",
       "scroll": {
         "nextPageLabel": " • Scroll for more",
@@ -35,6 +136,58 @@ interface Resources {
       },
       "search": {
         "placeholder": "Search your simulations..."
+      }
+    },
+    "simulationView": {
+      "header": {
+        "active": "Active",
+        "archived": "Archived"
+      },
+      "sections": {
+        "dataCollection": {
+          "description": "Configuration for data collection during simulation",
+          "ganttData": "Gantt Chart Data",
+          "maxItems": "Max {{count}} items",
+          "maxSamples": "Max {{count}} samples",
+          "serviceTimes": "Service Times",
+          "temporalProfile": "Temporal Profile",
+          "title": "Data Collection Settings",
+          "window": "Window: {{windowSize}}, Interval: {{interval}}"
+        },
+        "metadata": {
+          "created": "Created",
+          "updated": "Updated"
+        },
+        "reports": {
+          "completed": "Completed:",
+          "count": "{{count}} report" | "{{count}} reports",
+          "createdAt": "Created {{date}}",
+          "description": "Execution history and results for this configuration",
+          "error": "Error:",
+          "noReports": {
+            "description": "This simulation configuration hasn't been executed yet. Reports will appear here once the simulation runs.",
+            "title": "No Reports Yet"
+          },
+          "reportNumber": "Report #{{id}}",
+          "resultsAvailable": "Results available",
+          "title": "Simulation Reports"
+        },
+        "systemConfig": {
+          "description": "Core parameters for the queueing system simulation",
+          "randomSeed": "Random Seed",
+          "replications": "Replications",
+          "serviceChannels": "Service Channels",
+          "simulationTime": "Simulation Time",
+          "timeUnits": "time units",
+          "title": "System Configuration"
+        }
+      },
+      "statuses": {
+        "cancelled": "Cancelled",
+        "completed": "Completed",
+        "failed": "Failed",
+        "pending": "Pending",
+        "running": "Running"
       }
     }
   }

@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
 import {
@@ -25,6 +26,7 @@ export const SimulationsMenuItem = ({
   onDeleteSuccess,
   isActive = false,
 }: Props) => {
+  const { t } = useTranslation(["simulations"]);
   const deleteMutation = useDeleteSimulationMutation({
     onSuccess: () => {
       onDeleteSuccess?.();
@@ -35,9 +37,7 @@ export const SimulationsMenuItem = ({
     e.preventDefault();
     e.stopPropagation();
     if (
-      window.confirm(
-        `Are you sure you want to delete "${simulation.name}"? This action cannot be undone.`,
-      )
+      window.confirm(t(($) => $.menu.deleteConfirm, { name: simulation.name }))
     ) {
       deleteMutation.mutate(simulation.id);
     }
@@ -61,7 +61,9 @@ export const SimulationsMenuItem = ({
             <span className="truncate">{simulation.name}</span>
           </Link>
         ) : (
-          <span className="truncate">(Archived) {simulation.name}</span>
+          <span className="truncate">
+            {t(($) => $.menu.archived)} {simulation.name}
+          </span>
         )}
       </SidebarMenuButton>
       {simulation.is_active && (

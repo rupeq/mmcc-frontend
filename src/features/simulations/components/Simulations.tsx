@@ -1,4 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui";
@@ -16,7 +17,9 @@ interface Props {
 }
 
 export const Simulations = ({ defaultSearch }: Props) => {
+  const { t } = useTranslation(["simulations"]);
   const navigate = useNavigate({ from: "/" });
+
   const {
     search,
     reportStatus,
@@ -95,7 +98,7 @@ export const Simulations = ({ defaultSearch }: Props) => {
           </header>
           <main className="p-4">
             <p className="text-muted-foreground">
-              Select a simulation from the sidebar to view details
+              {t(($) => $.menu.selectSimulation)}
             </p>
           </main>
         </SidebarInset>

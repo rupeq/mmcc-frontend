@@ -12,3 +12,4 @@ i18next
   .init<HttpBackendOptions>(i18nConfiguration);
 
 export default i18next;
+export { format as dateFormat } from "./dateFormat";

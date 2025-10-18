@@ -1,5 +1,7 @@
+// src/features/simulations/components/SimulationFilters.tsx
 import { use, useState } from "react";
 
+import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
 import {
@@ -20,6 +22,7 @@ interface Props {
 }
 
 export const SimulationFilters = ({ onClose }: Props) => {
+  const { t } = useTranslation(["simulations"]);
   const {
     reportStatus,
     showArchived,
@@ -39,11 +42,9 @@ export const SimulationFilters = ({ onClose }: Props) => {
     if (localReportStatus !== reportStatus) {
       setReportStatus(localReportStatus);
     }
-
     if (localShowArchived !== showArchived) {
       setShowArchived(localShowArchived);
     }
-
     onClose?.();
   };
 
@@ -72,22 +73,23 @@ export const SimulationFilters = ({ onClose }: Props) => {
 
   const hasActiveFilters =
     reportStatus !== undefined || showArchived !== undefined;
-
   const hasChanges =
     localReportStatus !== reportStatus || localShowArchived !== showArchived;
 
   return (
-    <div className="grid gap-4 w-full">
+    <div className="grid gap-4 ">
       <div className="space-y-1">
-        <h4 className="text-sm font-semibold leading-none">Filters</h4>
+        <h4 className="text-sm font-semibold leading-none">
+          {t(($) => $.filters.title)}
+        </h4>
         <p className="text-xs text-muted-foreground">
-          Refine your simulation search
+          {t(($) => $.filters.description)}
         </p>
       </div>
       <div className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="reportStatus" className="text-xs font-medium">
-            Report Status
+            {t(($) => $.filters.reportStatus)}
           </Label>
           <Select
             value={localReportStatus ?? "all"}
@@ -98,11 +100,13 @@ export const SimulationFilters = ({ onClose }: Props) => {
               size="sm"
               className="w-full capitalize"
             >
-              <SelectValue placeholder="All Statuses" />
+              <SelectValue placeholder={t(($) => $.filters.allStatuses)} />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all" className="cursor-pointer">
-                <span className="font-medium">All Statuses</span>
+                <span className="font-medium">
+                  {t(($) => $.filters.allStatuses)}
+                </span>
               </SelectItem>
               {zReportStatus.options.map((option) => (
                 <SelectItem
@@ -110,14 +114,16 @@ export const SimulationFilters = ({ onClose }: Props) => {
                   value={option}
                   className="capitalize cursor-pointer"
                 >
-                  {option}
+                  {t(($) => $.simulationView.statuses[option])}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
         <div className="space-y-2">
-          <Label className="text-xs font-medium">Status</Label>
+          <Label className="text-xs font-medium">
+            {t(($) => $.filters.status)}
+          </Label>
           <label
             htmlFor="isActive"
             className="cursor-pointer hover:bg-accent/50 flex p-3 items-start gap-3 rounded-lg border transition-colors has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950"
@@ -130,10 +136,10 @@ export const SimulationFilters = ({ onClose }: Props) => {
             />
             <div className="grid gap-1 flex-1">
               <p className="text-sm font-medium leading-none">
-                Include archived
+                {t(($) => $.filters.includeArchived)}
               </p>
               <p className="text-xs text-muted-foreground leading-snug">
-                Show archived simulations in results
+                {t(($) => $.filters.includeArchivedDescription)}
               </p>
             </div>
           </label>
@@ -147,7 +153,7 @@ export const SimulationFilters = ({ onClose }: Props) => {
           disabled={!hasActiveFilters}
           className="flex-1"
         >
-          Clear All
+          {t(($) => $.filters.clearAll)}
         </Button>
         <Button
           onClick={handleApply}
@@ -155,7 +161,7 @@ export const SimulationFilters = ({ onClose }: Props) => {
           disabled={!hasChanges}
           className="flex-1"
         >
-          Apply Filters
+          {t(($) => $.filters.applyFilters)}
         </Button>
       </div>
     </div>

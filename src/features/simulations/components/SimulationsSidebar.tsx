@@ -3,6 +3,7 @@ import { use, useRef, useState } from "react";
 import { Funnel } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import {
   Button,
   Dialog,
@@ -12,6 +13,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  Separator,
   Sidebar as SidebarRoot,
   SidebarContent,
   SidebarFooter,
@@ -54,7 +56,6 @@ export const SimulationsSidebar = ({ activeSimulationId }: Props) => {
     if (observerTarget.current) {
       observerTarget.current = null;
     }
-
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasNextPage) {
@@ -84,7 +85,7 @@ export const SimulationsSidebar = ({ activeSimulationId }: Props) => {
         <Dialog>
           <DialogTrigger asChild={true}>
             <Button size="sm" variant="outline">
-              Create Simulation
+              {t(($) => $.sidebar.createButton)}
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -111,7 +112,7 @@ export const SimulationsSidebar = ({ activeSimulationId }: Props) => {
                 <Funnel className={hasFilters ? "text-blue-600" : ""} />
               </Button>
             </PopoverTrigger>
-            <PopoverContent>
+            <PopoverContent className="w-fit">
               <SimulationFilters
                 onClose={() => setIsFiltersPopoverOpen(false)}
               />
@@ -135,13 +136,19 @@ export const SimulationsSidebar = ({ activeSimulationId }: Props) => {
       </SidebarContent>
       <SidebarFooter>
         {!isLoading && simulations.length > 0 && (
-          <div className="px-2 py-1 text-xs text-muted-foreground pointer-events-none select-none">
-            {t(($) => $.sidebar.scroll.totalSimulations, {
-              count: simulations.length,
-            })}
-            {hasNextPage && t(($) => $.sidebar.scroll.nextPageLabel)}
-          </div>
+          <>
+            <div className="px-2 py-1 text-xs text-muted-foreground pointer-events-none select-none">
+              {t(($) => $.sidebar.scroll.totalSimulations, {
+                count: simulations.length,
+              })}
+              {hasNextPage && t(($) => $.sidebar.scroll.nextPageLabel)}
+            </div>
+            <Separator />
+          </>
         )}
+        <div className="px-2">
+          <LanguageSwitcher />
+        </div>
       </SidebarFooter>
     </SidebarRoot>
   );

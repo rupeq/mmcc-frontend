@@ -6,6 +6,7 @@ import { FormProvider as Form, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { PasswordInput } from "@/components/PasswordInput";
 import {
   Button,
@@ -42,7 +43,6 @@ export const SignInForm = ({
   ...props
 }: Props) => {
   const { t } = useTranslation(["authentication"]);
-
   const form = useForm<z.input<typeof zSignInRequestSchema>>({
     resolver: zodResolver(zSignInRequestSchema),
     defaultValues: {
@@ -55,10 +55,8 @@ export const SignInForm = ({
     if (!error) {
       return;
     }
-
     const errorMessage =
       error.response?.data?.detail ?? "Authentication failed";
-
     form.setError("root", {
       type: "manual",
       message: errorMessage,
@@ -132,6 +130,9 @@ export const SignInForm = ({
           </Form>
         </CardContent>
       </Card>
+      <div className="w-full">
+        <LanguageSwitcher />
+      </div>
     </div>
   );
 };

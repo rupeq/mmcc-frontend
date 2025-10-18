@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
 import {
@@ -33,6 +34,7 @@ interface Props {
 }
 
 export const SimulationView = ({ simulation, reports }: Props) => {
+  const { t } = useTranslation(["simulations"]);
   const {
     search,
     reportStatus,
@@ -99,7 +101,9 @@ export const SimulationView = ({ simulation, reports }: Props) => {
                       : "bg-gray-50 text-gray-700 dark:bg-gray-950 dark:text-gray-400",
                   )}
                 >
-                  {simulation.is_active ? "Active" : "Archived"}
+                  {simulation.is_active
+                    ? t(($) => $.simulationView.header.active)
+                    : t(($) => $.simulationView.header.archived)}
                 </span>
               </div>
             </div>
@@ -111,13 +115,17 @@ export const SimulationView = ({ simulation, reports }: Props) => {
             />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <DistributionDisplay
-                title="Arrival Process"
-                description="Distribution governing customer arrivals"
+                title={t(($) => $.distributions.arrivalProcess.title)}
+                description={t(
+                  ($) => $.distributions.arrivalProcess.description,
+                )}
                 distribution={simulation.simulation_parameters.arrivalProcess}
               />
               <DistributionDisplay
-                title="Service Process"
-                description="Distribution governing service times"
+                title={t(($) => $.distributions.serviceProcess.title)}
+                description={t(
+                  ($) => $.distributions.serviceProcess.description,
+                )}
                 distribution={simulation.simulation_parameters.serviceProcess}
               />
             </div>
@@ -128,23 +136,34 @@ export const SimulationView = ({ simulation, reports }: Props) => {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-xl font-semibold">Simulation Reports</h2>
+                  <h2 className="text-xl font-semibold">
+                    {t(($) => $.simulationView.sections.reports.title)}
+                  </h2>
                   <p className="text-sm text-muted-foreground">
-                    Execution history and results for this configuration
+                    {t(($) => $.simulationView.sections.reports.description)}
                   </p>
                 </div>
                 <span className="text-sm font-medium text-muted-foreground">
-                  {activeReports.length}{" "}
-                  {activeReports.length === 1 ? "report" : "reports"}
+                  {t(($) => $.simulationView.sections.reports.count, {
+                    count: activeReports.length,
+                  })}
                 </span>
               </div>
               {activeReports.length === 0 ? (
                 <Empty>
                   <EmptyHeader>
-                    <EmptyTitle>No Reports Yet</EmptyTitle>
+                    <EmptyTitle>
+                      {t(
+                        ($) =>
+                          $.simulationView.sections.reports.noReports.title,
+                      )}
+                    </EmptyTitle>
                     <EmptyDescription>
-                      This simulation configuration hasn't been executed yet.
-                      Reports will appear here once the simulation runs.
+                      {t(
+                        ($) =>
+                          $.simulationView.sections.reports.noReports
+                            .description,
+                      )}
                     </EmptyDescription>
                   </EmptyHeader>
                 </Empty>

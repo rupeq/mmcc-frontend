@@ -1,4 +1,5 @@
 import { type UseFormReturn } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 import {
   FormControl,
@@ -18,45 +19,51 @@ interface WeibullDistributionProps {
 export const WeibullDistribution = ({
   form,
   fieldPrefix,
-}: WeibullDistributionProps) => (
-  <>
-    <FormField
-      control={form.control}
-      name={`simulationParameters.${fieldPrefix}.k`}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Shape (k)</FormLabel>
-          <FormControl>
-            <Input
-              type="number"
-              step="0.01"
-              placeholder="e.g., 1.5"
-              {...field}
-              onChange={(e) => field.onChange(parseFloat(e.target.value))}
-            />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-    <FormField
-      control={form.control}
-      name={`simulationParameters.${fieldPrefix}.lambda_param`}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Scale (λ)</FormLabel>
-          <FormControl>
-            <Input
-              type="number"
-              step="0.01"
-              placeholder="e.g., 2.0"
-              {...field}
-              onChange={(e) => field.onChange(parseFloat(e.target.value))}
-            />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  </>
-);
+}: WeibullDistributionProps) => {
+  const { t } = useTranslation(["simulations"]);
+
+  return (
+    <>
+      <FormField
+        control={form.control}
+        name={`simulationParameters.${fieldPrefix}.k`}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>{t(($) => $.distributions.parameters.shape)}</FormLabel>
+            <FormControl>
+              <Input
+                type="number"
+                step="0.01"
+                placeholder="e.g., 1.5"
+                {...field}
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name={`simulationParameters.${fieldPrefix}.lambda_param`}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>
+              {t(($) => $.distributions.parameters.scaleWeibull)}
+            </FormLabel>
+            <FormControl>
+              <Input
+                type="number"
+                step="0.01"
+                placeholder="e.g., 2.0"
+                {...field}
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </>
+  );
+};
