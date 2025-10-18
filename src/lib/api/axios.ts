@@ -1,4 +1,3 @@
-import { AsyncQueuer } from "@tanstack/react-pacer";
 import axios, {
   type AxiosError,
   type AxiosInstance,
@@ -56,25 +55,24 @@ export const createApiClient = (config: ApiConfig): AxiosInstance => {
     withCredentials: true,
   });
 
-  const refreshQueue = new AsyncQueuer(
-    async () => {
-      await instance.put(REFRESH_TOKEN_PATH);
-    },
-    {
-      concurrency: 1,
-      started: true,
-      key: "token-refresh-queue",
-      onError: (error) => {
-        if (import.meta.env.DEV) {
-          console.error("Token refresh failed:", error);
-        }
-        redirectToSignIn();
-      },
-    },
-  );
+  let refreshPromise: Promise<void> | null = null;
 
-  const refreshAccessToken = () => {
-    refreshQueue.addItem(undefined);
+  const refreshAccessToken = async (): Promise<void> => {
+    if (refreshPromise) {
+      return refreshPromise;
+    }
+
+    refreshPromise = instance
+      .put(REFRESH_TOKEN_PATH)
+      .then(() => {
+        refreshPromise = null;
+      })
+      .catch((error) => {
+        refreshPromise = null;
+        throw error;
+      });
+
+    return refreshPromise;
   };
 
   instance.interceptors.request.use(
@@ -85,16 +83,23 @@ export const createApiClient = (config: ApiConfig): AxiosInstance => {
     (error: AxiosError) => Promise.reject(error),
   );
 
-  const handle401Error = (error: AxiosError): unknown => {
+  const handle401Error = async (error: AxiosError): Promise<unknown> => {
     const originalRequest = error.config as InternalAxiosRequestConfig & {
       _retry?: boolean;
     };
 
     if (originalRequest._retry) {
+      if (import.meta.env.DEV) {
+        console.error("Token refresh retry loop detected");
+      }
+      redirectToSignIn();
       return Promise.reject(error);
     }
 
     if (isRefreshTokenRequest(originalRequest.url)) {
+      if (import.meta.env.DEV) {
+        console.error("Refresh token request failed");
+      }
       redirectToSignIn();
       return Promise.reject(error);
     }
@@ -102,9 +107,13 @@ export const createApiClient = (config: ApiConfig): AxiosInstance => {
     originalRequest._retry = true;
 
     try {
-      refreshAccessToken();
+      await refreshAccessToken();
       return instance(originalRequest);
     } catch (refreshError) {
+      if (import.meta.env.DEV) {
+        console.error("Token refresh failed:", refreshError);
+      }
+      redirectToSignIn();
       return Promise.reject(refreshError);
     }
   };
@@ -115,7 +124,6 @@ export const createApiClient = (config: ApiConfig): AxiosInstance => {
       if (error.response?.status === 401) {
         return handle401Error(error);
       }
-
       return Promise.reject(error);
     },
   );
@@ -133,25 +141,21 @@ export const api = {
     url: string,
     config?: Parameters<typeof apiClient.get>[1],
   ) => apiClient.get<T>(url, config),
-
   post: <T = unknown>(
     url: string,
     data?: unknown,
     config?: Parameters<typeof apiClient.post>[2],
   ) => apiClient.post<T>(url, data, config),
-
   put: <T = unknown>(
     url: string,
     data?: unknown,
     config?: Parameters<typeof apiClient.put>[2],
   ) => apiClient.put<T>(url, data, config),
-
   patch: <T = unknown>(
     url: string,
     data?: unknown,
     config?: Parameters<typeof apiClient.patch>[2],
   ) => apiClient.patch<T>(url, data, config),
-
   delete: <T = unknown>(
     url: string,
     config?: Parameters<typeof apiClient.delete>[1],
