@@ -8,6 +8,10 @@
     },
     "buttons": {
       "submit": "Sign in"
+    },
+    "newAccount": {
+      "label": "Don't have an account?",
+      "button": "Sign up"
     }
   },
   "signUpForm": {
@@ -19,6 +23,10 @@
     },
     "buttons": {
       "submit": "Sign up"
+    },
+    "haveAccount": {
+      "label": "Do you have an account?",
+      "button": "Sign in"
     }
   }
 }

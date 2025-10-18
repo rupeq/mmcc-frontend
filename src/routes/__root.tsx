@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { RoutePending } from "@/components/RoutePending";
 import type { RouterContext } from "@/lib/tanstack";
 import { queryClient } from "@/lib/tanstack";
 
@@ -37,4 +39,6 @@ const RootLayout = () => (
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootLayout,
+  errorComponent: ErrorBoundary,
+  pendingComponent: RoutePending,
 });

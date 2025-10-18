@@ -1,0 +1,18 @@
+{
+  "errors": {
+    "title": "Something went wrong",
+    "description": "We encountered an error while processing your request.",
+    "tryAgain": "Try again",
+    "goHome": "Go home"
+  },
+  "user": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "activeAccount": "Active Account",
+    "signOut": "Sign out"
+  },
+  "loading": {
+    "default": "Loading...",
+    "pleaseWait": "Please wait"
+  }
+}

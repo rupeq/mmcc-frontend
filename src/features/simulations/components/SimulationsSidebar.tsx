@@ -3,7 +3,6 @@ import { use, useRef, useState } from "react";
 import { Funnel } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import {
   Button,
   Dialog,
@@ -22,6 +21,7 @@ import {
   SidebarHeader,
   SidebarMenu,
 } from "@/components/ui";
+import { UserMenu } from "@/components/UserMenu";
 import { CreateSimulationForm } from "@/features/simulations/components/CreateSimulationForm";
 import { SimulationFilters } from "@/features/simulations/components/SimulationFilters";
 import { SimulationsMenu } from "@/features/simulations/components/SimulationsMenu";
@@ -53,9 +53,11 @@ export const SimulationsSidebar = ({ activeSimulationId }: Props) => {
     if (isFetchingNextPage) {
       return;
     }
+
     if (observerTarget.current) {
       observerTarget.current = null;
     }
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasNextPage) {
@@ -66,10 +68,12 @@ export const SimulationsSidebar = ({ activeSimulationId }: Props) => {
         rootMargin: "100px",
       },
     );
+
     if (node) {
       observer.observe(node);
       observerTarget.current = node;
     }
+
     return () => {
       if (observerTarget.current) {
         observer.disconnect();
@@ -146,9 +150,7 @@ export const SimulationsSidebar = ({ activeSimulationId }: Props) => {
             <Separator />
           </>
         )}
-        <div className="px-2">
-          <LanguageSwitcher />
-        </div>
+        <UserMenu />
       </SidebarFooter>
     </SidebarRoot>
   );

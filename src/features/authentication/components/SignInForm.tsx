@@ -1,6 +1,7 @@
 import { type ComponentProps, useEffect } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "@tanstack/react-router";
 import type { AxiosError } from "axios";
 import { FormProvider as Form, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -55,8 +56,10 @@ export const SignInForm = ({
     if (!error) {
       return;
     }
+
     const errorMessage =
       error.response?.data?.detail ?? "Authentication failed";
+
     form.setError("root", {
       type: "manual",
       message: errorMessage,
@@ -125,6 +128,15 @@ export const SignInForm = ({
                 <Button type="submit" isLoading={isLoading}>
                   {t(($) => $.signInForm.buttons.submit)}
                 </Button>
+                <div className="text-center text-sm text-muted-foreground">
+                  {t(($) => $.signInForm.newAccount.label)}{" "}
+                  <Link
+                    to="/signup"
+                    className="text-primary underline-offset-4 hover:underline"
+                  >
+                    {t(($) => $.signInForm.newAccount.button)}
+                  </Link>
+                </div>
               </FieldGroup>
             </form>
           </Form>

@@ -3,8 +3,8 @@ import type { HttpBackendOptions } from "i18next-http-backend";
 
 export const fallbackLanguage = "ru";
 export const supportedLanguages = ["en", "ru"];
-export const namespaces = ["authentication", "simulations"];
-export const defaultNamespace = "authentication";
+export const namespaces = ["authentication", "simulations", "common"];
+export const defaultNamespace = "common";
 
 export const i18nConfiguration: InitOptions<HttpBackendOptions> = {
   ns: namespaces,

@@ -8,6 +8,10 @@
     },
     "buttons": {
       "submit": "Войти"
+    },
+    "newAccount": {
+      "label": "Нет аккаунта?",
+      "button": "Зарегистрироваться"
     }
   },
   "signUpForm": {
@@ -19,6 +23,10 @@
     },
     "buttons": {
       "submit": "Войти"
+    },
+    "haveAccount": {
+      "label": "Есть аккаунт?",
+      "button": "Войти"
     }
   }
 }

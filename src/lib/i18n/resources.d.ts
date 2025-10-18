@@ -9,6 +9,10 @@ interface Resources {
         "email": "Email",
         "password": "Password"
       },
+      "newAccount": {
+        "button": "Sign up",
+        "label": "Don't have an account?"
+      },
       "title": "Login to your account"
     },
     "signUpForm": {
@@ -20,7 +24,29 @@ interface Resources {
         "email": "Email",
         "password": "Password"
       },
+      "haveAccount": {
+        "button": "Sign in",
+        "label": "Do you have an account?"
+      },
       "title": "Create a new account"
+    }
+  },
+  "common": {
+    "errors": {
+      "description": "We encountered an error while processing your request.",
+      "goHome": "Go home",
+      "title": "Something went wrong",
+      "tryAgain": "Try again"
+    },
+    "loading": {
+      "default": "Loading...",
+      "pleaseWait": "Please wait"
+    },
+    "user": {
+      "active": "Active",
+      "activeAccount": "Active Account",
+      "inactive": "Inactive",
+      "signOut": "Sign out"
     }
   },
   "simulations": {
