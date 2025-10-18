@@ -76,7 +76,7 @@ export const SimulationsSidebar = ({ activeSimulationId }: Props) => {
     };
   };
 
-  const hasFilters = !!search || !!reportStatus || showArchived !== undefined;
+  const hasFilters = !!reportStatus || showArchived !== undefined;
 
   return (
     <SidebarRoot>

@@ -53,15 +53,16 @@ export const SimulationsMenuItem = ({
         asChild
         isActive={isActive}
       >
-        <Link
-          to="/simulations/$simulationId"
-          params={{ simulationId: simulation.id }}
-        >
-          <span className="truncate">
-            {!simulation.is_active && <span>(Archived) </span>}
-            {simulation.name}
-          </span>
-        </Link>
+        {simulation.is_active ? (
+          <Link
+            to="/simulations/$simulationId"
+            params={{ simulationId: simulation.id }}
+          >
+            <span className="truncate">{simulation.name}</span>
+          </Link>
+        ) : (
+          <span className="truncate">(Archived) {simulation.name}</span>
+        )}
       </SidebarMenuButton>
       {simulation.is_active && (
         <SidebarMenuAction
