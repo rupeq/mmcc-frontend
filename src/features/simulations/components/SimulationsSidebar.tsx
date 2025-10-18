@@ -5,6 +5,9 @@ import { useTranslation } from "react-i18next";
 
 import {
   Button,
+  Dialog,
+  DialogContent,
+  DialogTrigger,
   Input,
   Popover,
   PopoverContent,
@@ -17,6 +20,7 @@ import {
   SidebarHeader,
   SidebarMenu,
 } from "@/components/ui";
+import { CreateSimulationForm } from "@/features/simulations/components/CreateSimulationForm";
 import { SimulationFilters } from "@/features/simulations/components/SimulationFilters";
 import { SimulationsMenu } from "@/features/simulations/components/SimulationsMenu";
 import { SimulationsFiltersContext } from "@/features/simulations/contexts";
@@ -76,30 +80,44 @@ export const SimulationsSidebar = ({ activeSimulationId }: Props) => {
 
   return (
     <SidebarRoot>
-      <SidebarHeader className="flex-row">
-        <Input
-          placeholder={t(($) => $.sidebar.search.placeholder)}
-          onChange={(event) => setSearch(event.target.value)}
-          value={search}
-        />
-        <Popover
-          open={isFiltersPopoverOpen}
-          onOpenChange={setIsFiltersPopoverOpen}
-        >
-          <PopoverTrigger asChild={true}>
-            <Button
-              variant="outline"
-              size="icon"
-              aria-label="Filters"
-              className={hasFilters ? "border-blue-600" : ""}
-            >
-              <Funnel className={hasFilters ? "text-blue-600" : ""} />
+      <SidebarHeader>
+        <Dialog>
+          <DialogTrigger asChild={true}>
+            <Button size="sm" variant="outline">
+              Create Simulation
             </Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <SimulationFilters onClose={() => setIsFiltersPopoverOpen(false)} />
-          </PopoverContent>
-        </Popover>
+          </DialogTrigger>
+          <DialogContent>
+            <CreateSimulationForm />
+          </DialogContent>
+        </Dialog>
+        <div className="flex flex-row gap-2">
+          <Input
+            placeholder={t(($) => $.sidebar.search.placeholder)}
+            onChange={(event) => setSearch(event.target.value)}
+            value={search}
+          />
+          <Popover
+            open={isFiltersPopoverOpen}
+            onOpenChange={setIsFiltersPopoverOpen}
+          >
+            <PopoverTrigger asChild={true}>
+              <Button
+                variant="outline"
+                size="icon"
+                aria-label="Filters"
+                className={hasFilters ? "border-blue-600" : ""}
+              >
+                <Funnel className={hasFilters ? "text-blue-600" : ""} />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <SimulationFilters
+                onClose={() => setIsFiltersPopoverOpen(false)}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

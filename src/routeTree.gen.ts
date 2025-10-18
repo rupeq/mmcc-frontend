@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SignupIndexRouteImport } from './routes/signup/index'
 import { Route as SigninIndexRouteImport } from './routes/signin/index'
+import { Route as SimulationsCreateRouteImport } from './routes/simulations/create'
 import { Route as SimulationsSimulationIdRouteImport } from './routes/simulations/$simulationId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const SigninIndexRoute = SigninIndexRouteImport.update({
   path: '/signin/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SimulationsCreateRoute = SimulationsCreateRouteImport.update({
+  id: '/simulations/create',
+  path: '/simulations/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SimulationsSimulationIdRoute = SimulationsSimulationIdRouteImport.update({
   id: '/simulations/$simulationId',
   path: '/simulations/$simulationId',
@@ -38,12 +44,14 @@ const SimulationsSimulationIdRoute = SimulationsSimulationIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/simulations/$simulationId': typeof SimulationsSimulationIdRoute
+  '/simulations/create': typeof SimulationsCreateRoute
   '/signin': typeof SigninIndexRoute
   '/signup': typeof SignupIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/simulations/$simulationId': typeof SimulationsSimulationIdRoute
+  '/simulations/create': typeof SimulationsCreateRoute
   '/signin': typeof SigninIndexRoute
   '/signup': typeof SignupIndexRoute
 }
@@ -51,20 +59,38 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/simulations/$simulationId': typeof SimulationsSimulationIdRoute
+  '/simulations/create': typeof SimulationsCreateRoute
   '/signin/': typeof SigninIndexRoute
   '/signup/': typeof SignupIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/simulations/$simulationId' | '/signin' | '/signup'
+  fullPaths:
+    | '/'
+    | '/simulations/$simulationId'
+    | '/simulations/create'
+    | '/signin'
+    | '/signup'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/simulations/$simulationId' | '/signin' | '/signup'
-  id: '__root__' | '/' | '/simulations/$simulationId' | '/signin/' | '/signup/'
+  to:
+    | '/'
+    | '/simulations/$simulationId'
+    | '/simulations/create'
+    | '/signin'
+    | '/signup'
+  id:
+    | '__root__'
+    | '/'
+    | '/simulations/$simulationId'
+    | '/simulations/create'
+    | '/signin/'
+    | '/signup/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SimulationsSimulationIdRoute: typeof SimulationsSimulationIdRoute
+  SimulationsCreateRoute: typeof SimulationsCreateRoute
   SigninIndexRoute: typeof SigninIndexRoute
   SignupIndexRoute: typeof SignupIndexRoute
 }
@@ -92,6 +118,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SigninIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/simulations/create': {
+      id: '/simulations/create'
+      path: '/simulations/create'
+      fullPath: '/simulations/create'
+      preLoaderRoute: typeof SimulationsCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/simulations/$simulationId': {
       id: '/simulations/$simulationId'
       path: '/simulations/$simulationId'
@@ -105,6 +138,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SimulationsSimulationIdRoute: SimulationsSimulationIdRoute,
+  SimulationsCreateRoute: SimulationsCreateRoute,
   SigninIndexRoute: SigninIndexRoute,
   SignupIndexRoute: SignupIndexRoute,
 }

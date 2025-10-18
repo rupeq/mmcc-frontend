@@ -16,7 +16,7 @@ export const i18nConfiguration: InitOptions<HttpBackendOptions> = {
     escapeValue: false,
   },
   backend: {
-    loadPath: "locales/{{lng}}/{{ns}}.json",
+    loadPath: "/locales/{{lng}}/{{ns}}.json",
   },
   detection: {
     order: [
