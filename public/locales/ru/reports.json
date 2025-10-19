@@ -1,0 +1,47 @@
+{
+  "reportView": {
+    "metadata": {
+      "status": "Статус",
+      "created": "Создан",
+      "completed": "Завершен"
+    },
+    "errorMessage": "Произошла ошибка при генерации отчета",
+    "sweepNotSupported": "Результаты подметаний (sweep) пока не поддерживаются в интерфейсе"
+  },
+  "aggregatedResults": {
+    "title": "Сводные результаты",
+    "description_one": "Результаты из {{count}} повторения",
+    "description_few": "Результаты из {{count}} повторений",
+    "description_many": "Результаты из {{count}} повторений",
+    "description_other": "Результаты из {{count}} повторений"
+  },
+  "metrics": {
+    "totalRequests": "Всего заявок",
+    "processedRejected": "{{processed}} обработано, {{rejected}} отклонено",
+    "rejectionProbability": "Вероятность отказа",
+    "avgChannelUtilization": "Средняя загрузка каналов",
+    "throughput": "Пропускная способность",
+    "throughputUnit": "заявок в единицу времени",
+    "confidenceInterval": "95% ДИ: [{{lowerBound}}, {{upperBound}}]"
+  },
+  "individualReplications": {
+    "title": "Отдельные повторения",
+    "description": "Подробные результаты для каждого запуска симуляции",
+    "replicationNumber": "Повторение {{number}}",
+    "summary": "{{processed}} обработано, {{rejected}} отклонено"
+  },
+  "detailedMetrics": {
+    "totalRequests": "Всего заявок",
+    "rejectionProbability": "Вероятность отказа",
+    "avgChannelUtilization": "Средняя загрузка каналов",
+    "throughput": "Пропускная способность"
+  },
+  "dataCollection": {
+    "ganttChart": "Данные диаграммы Ганта",
+    "ganttEvents": "Зафиксировано событий обслуживания: {{count}}",
+    "serviceTimes": "Время обслуживания",
+    "samplesCollected": "Собрано образцов: {{count}}",
+    "temporalProfile": "Временной профиль",
+    "timeWindows": "Проанализировано временных окон: {{count}}"
+  }
+}

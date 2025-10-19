@@ -361,7 +361,7 @@ export const CreateSimulationForm = () => {
           })}
         </DialogDescription>
       </DialogHeader>
-      <div>
+      <div className="mt-4">
         <Form {...form}>
           <form
             id="CreateSimulationForm"

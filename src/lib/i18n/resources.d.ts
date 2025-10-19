@@ -49,6 +49,50 @@ interface Resources {
       "signOut": "Sign out"
     }
   },
+  "reports": {
+    "aggregatedResults": {
+      "description": "Results from {{count}} replication" | "Results from {{count}} replications",
+      "title": "Aggregated Results"
+    },
+    "dataCollection": {
+      "ganttChart": "Gantt Chart Data",
+      "ganttEvents": "{{count}} service events recorded",
+      "samplesCollected": "{{count}} samples collected",
+      "serviceTimes": "Service Times",
+      "temporalProfile": "Temporal Profile",
+      "timeWindows": "{{count}} time windows analyzed"
+    },
+    "detailedMetrics": {
+      "avgChannelUtilization": "Avg Channel Utilization",
+      "rejectionProbability": "Rejection Probability",
+      "throughput": "Throughput",
+      "totalRequests": "Total Requests"
+    },
+    "individualReplications": {
+      "description": "Detailed results for each simulation run",
+      "replicationNumber": "Replication {{number}}",
+      "summary": "{{processed}} processed, {{rejected}} rejected",
+      "title": "Individual Replications"
+    },
+    "metrics": {
+      "avgChannelUtilization": "Avg Channel Utilization",
+      "confidenceInterval": "95% CI: [{{lowerBound}}, {{upperBound}}]",
+      "processedRejected": "{{processed}} processed, {{rejected}} rejected",
+      "rejectionProbability": "Rejection Probability",
+      "throughput": "Throughput",
+      "throughputUnit": "requests per time unit",
+      "totalRequests": "Total Requests"
+    },
+    "reportView": {
+      "errorMessage": "An error occurred while generating the report",
+      "metadata": {
+        "completed": "Completed",
+        "created": "Created",
+        "status": "Status"
+      },
+      "sweepNotSupported": "Sweep results are not yet supported in the UI"
+    }
+  },
   "simulations": {
     "createForm": {
       "buttons": {

@@ -26,7 +26,7 @@ const RouteComponent = () => {
   );
 };
 
-export const Route = createFileRoute("/simulations/$simulationId")({
+export const Route = createFileRoute("/simulations/$simulationId/")({
   component: RouteComponent,
   beforeLoad: () => {
     if (!CookieUtils.isAuthenticated()) {

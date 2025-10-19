@@ -1,0 +1,45 @@
+{
+  "reportView": {
+    "metadata": {
+      "status": "Status",
+      "created": "Created",
+      "completed": "Completed"
+    },
+    "errorMessage": "An error occurred while generating the report",
+    "sweepNotSupported": "Sweep results are not yet supported in the UI"
+  },
+  "aggregatedResults": {
+    "title": "Aggregated Results",
+    "description_one": "Results from {{count}} replication",
+    "description_other": "Results from {{count}} replications"
+  },
+  "metrics": {
+    "totalRequests": "Total Requests",
+    "processedRejected": "{{processed}} processed, {{rejected}} rejected",
+    "rejectionProbability": "Rejection Probability",
+    "avgChannelUtilization": "Avg Channel Utilization",
+    "throughput": "Throughput",
+    "throughputUnit": "requests per time unit",
+    "confidenceInterval": "95% CI: [{{lowerBound}}, {{upperBound}}]"
+  },
+  "individualReplications": {
+    "title": "Individual Replications",
+    "description": "Detailed results for each simulation run",
+    "replicationNumber": "Replication {{number}}",
+    "summary": "{{processed}} processed, {{rejected}} rejected"
+  },
+  "detailedMetrics": {
+    "totalRequests": "Total Requests",
+    "rejectionProbability": "Rejection Probability",
+    "avgChannelUtilization": "Avg Channel Utilization",
+    "throughput": "Throughput"
+  },
+  "dataCollection": {
+    "ganttChart": "Gantt Chart Data",
+    "ganttEvents": "{{count}} service events recorded",
+    "serviceTimes": "Service Times",
+    "samplesCollected": "{{count}} samples collected",
+    "temporalProfile": "Temporal Profile",
+    "timeWindows": "{{count}} time windows analyzed"
+  }
+}
