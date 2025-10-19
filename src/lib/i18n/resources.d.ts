@@ -209,6 +209,12 @@ interface Resources {
       }
     },
     "simulationView": {
+      "actions": {
+        "runError": "Failed to start simulation",
+        "runSimulation": "Run Simulation",
+        "runSuccess": "Simulation started successfully",
+        "runningSimulation": "Running..."
+      },
       "header": {
         "active": "Active",
         "archived": "Archived"

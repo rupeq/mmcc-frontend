@@ -1003,6 +1003,21 @@ export const zQuantileStatisticsResponse = z.object({
 });
 
 /**
+ * RunSimulationResponse
+ * Represent the response after running an existing simulation.
+ *
+ * Attributes:
+ * simulation_configuration_id: The UUID of the configuration being run.
+ * simulation_report_id: The unique identifier for the newly created report.
+ * task_id: The background task ID for tracking execution status.
+ */
+export const zRunSimulationResponse = z.object({
+    simulation_configuration_id: z.uuid(),
+    simulation_report_id: z.uuid(),
+    task_id: z.uuid()
+});
+
+/**
  * ServiceTimeAnalysisResponse
  * Response schema for complete service time analysis.
  *
@@ -1090,6 +1105,27 @@ export const zSignUpRequestSchema = z.object({
  */
 export const zSignUpResponseSchema = z.object({
     email: z.email()
+});
+
+/**
+ * SweepParameter
+ * Define the parameter to be varied in a sweep experiment.
+ */
+export const zSweepParameter = z.object({
+    name: z.string(),
+    values: z.array(z.union([
+        z.int(),
+        z.number()
+    ])).min(1)
+});
+
+/**
+ * SweepRequest
+ * Represent a request to perform a parameter sweep simulation.
+ */
+export const zSweepRequest = z.object({
+    base_request: zSimulationRequestInput,
+    sweepParameter: zSweepParameter
 });
 
 export const zSigninApiV1AuthorizationSigninPostData = z.object({
@@ -1249,6 +1285,30 @@ export const zCompareWithTheoryApiV1SimulationsCompareTheoryPostData = z.object(
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
+
+export const zRunSimulationApiV1SimulationsSimulationConfigurationIdRunPostData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        simulation_configuration_id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zRunSimulationApiV1SimulationsSimulationConfigurationIdRunPostResponse = zRunSimulationResponse;
+
+export const zRunParameterSweepApiV1SimulationsSweepPostData = z.object({
+    body: zSweepRequest,
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zRunParameterSweepApiV1SimulationsSweepPostResponse = zSweepResponse;
 
 export const zGetBackgroundTasksApiV1BackgroundTasksGetData = z.object({
     body: z.optional(z.never()),

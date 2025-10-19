@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
 import {
+  Button,
   Empty,
   EmptyDescription,
   EmptyHeader,
@@ -15,6 +16,10 @@ import { getSimulationsQueryKeys } from "@/features/simulations";
 import { SimulationsSidebar } from "@/features/simulations/components/SimulationsSidebar";
 import { SimulationsFiltersContext } from "@/features/simulations/contexts";
 import { useSimulationFilters } from "@/features/simulations/hooks";
+import {
+  getSimulationReportsQueryOptions,
+  useRunSimulationMutation,
+} from "@/features/simulations/simulation/services";
 import {
   zGetSimulationConfigurationResponse,
   zSimulationReport,
@@ -30,26 +35,55 @@ import { SimulationReportCard } from "./SimulationReportCard";
 
 interface Props {
   simulation: z.infer<typeof zGetSimulationConfigurationResponse>;
+
   reports: Array<z.infer<typeof zSimulationReport>>;
 }
 
 export const SimulationView = ({ simulation, reports }: Props) => {
   const { t } = useTranslation(["simulations"]);
+
   const {
     search,
+
     reportStatus,
+
     showArchived,
+
     simulations,
+
     simulationsQuery,
+
     setSearch,
+
     setReportStatus,
+
     setShowArchived,
   } = useSimulationFilters();
+
+  const runSimulationMutation = useRunSimulationMutation({
+    onSuccess: () => {
+      // Invalidate reports query to refresh the list
+
+      queryClient.invalidateQueries({
+        queryKey: getSimulationReportsQueryOptions(simulation.id).queryKey,
+      });
+
+      // Invalidate simulations list to update any status indicators
+
+      queryClient.invalidateQueries({
+        queryKey: getSimulationsQueryKeys(),
+      });
+    },
+  });
 
   const handleDeleteSuccess = () => {
     queryClient.invalidateQueries({
       queryKey: getSimulationsQueryKeys(),
     });
+  };
+
+  const handleRunSimulation = () => {
+    runSimulationMutation.mutate(simulation.id);
   };
 
   const filtersContextValue = {
@@ -106,9 +140,35 @@ export const SimulationView = ({ simulation, reports }: Props) => {
                     : t(($) => $.simulationView.header.archived)}
                 </span>
               </div>
+              {simulation.is_active && (
+                <Button
+                  onClick={handleRunSimulation}
+                  isLoading={runSimulationMutation.isPending}
+                  disabled={runSimulationMutation.isPending}
+                  size="sm"
+                >
+                  {runSimulationMutation.isPending
+                    ? t(($) => $.simulationView.actions.runningSimulation)
+                    : t(($) => $.simulationView.actions.runSimulation)}
+                </Button>
+              )}
             </div>
           </header>
           <main className="flex flex-1 flex-col gap-6 p-4 md:p-6">
+            {runSimulationMutation.isSuccess && (
+              <div className="rounded-lg border border-green-200 bg-green-50 p-4 dark:border-green-900 dark:bg-green-950">
+                <p className="text-sm font-medium text-green-900 dark:text-green-100">
+                  {t(($) => $.simulationView.actions.runSuccess)}
+                </p>
+              </div>
+            )}
+            {runSimulationMutation.isError && (
+              <div className="rounded-lg border border-red-200 bg-red-50 p-4 dark:border-red-900 dark:bg-red-950">
+                <p className="text-sm font-medium text-red-900 dark:text-red-100">
+                  {t(($) => $.simulationView.actions.runError)}
+                </p>
+              </div>
+            )}
             <SimulationMetadata simulation={simulation} />
             <SimulationParameters
               parameters={simulation.simulation_parameters}

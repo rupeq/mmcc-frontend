@@ -115,6 +115,12 @@
       "active": "Active",
       "archived": "Archived"
     },
+    "actions": {
+      "runSimulation": "Run Simulation",
+      "runningSimulation": "Running...",
+      "runSuccess": "Simulation started successfully",
+      "runError": "Failed to start simulation"
+    },
     "sections": {
       "metadata": {
         "created": "Created",
