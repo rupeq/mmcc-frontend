@@ -120,12 +120,13 @@
       "runSimulation": "Запустить симуляцию",
       "runningSimulation": "Запуск...",
       "runSuccess": "Симуляция успешно запущена",
-      "runError": "Не удалось запустить симуляцию"
+      "runError": "Не удалось запустить симуляцию",
+      "parameterSweep": "Запустить перебор параметров"
     },
     "sections": {
       "metadata": {
-        "created": "Создано",
-        "updated": "Обновлено"
+        "created": "Создана",
+        "updated": "Обновлена"
       },
       "systemConfig": {
         "title": "Конфигурация системы",
@@ -161,13 +162,21 @@
         "noReports": {
           "title": "Отчетов пока нет",
           "description": "Эта конфигурация симуляции еще не была выполнена. Отчеты появятся здесь после запуска симуляции."
-        }
+        },
+        "sweepBatch": {
+          "title": "Перебор параметров",
+          "parameter": "Параметр",
+          "viewReports_two": "{{count}} отчёта в этом переборе",
+          "viewReports_few": "{{count}} отчёта в этом переборе",
+          "viewReports_many": "{{count}} отчётов в этом переборе"
+        },
+        "individualReports": "Отдельные отчёты"
       }
     },
     "statuses": {
       "pending": "Ожидание",
       "running": "Выполняется",
-      "completed": "Завершена",
+      "completed": "Завершен",
       "failed": "Ошибка",
       "cancelled": "Отменена"
     }
@@ -177,5 +186,85 @@
     "deleteConfirm": "Вы уверены, что хотите удалить \"{{name}}\"? Это действие нельзя отменить.",
     "clearFilters": "Очистить фильтры",
     "archived": "(Архивная)"
+  },
+  "sweep": {
+    "subTitle": "Перебор параметра",
+    "configure": {
+      "title": "Настройка перебора параметров",
+      "description": "Запустить несколько симуляций, изменяя один параметр",
+      "parameter": "Параметр для перебора",
+      "selectParameter": "Выберите параметр",
+      "values": "Значения для тестирования",
+      "valuesPlaceholder": "Введите значение и нажмите Enter или +",
+      "valuesDescription": "Введите от 2 до 50 значений. Всего запусков = значения × повторения (макс 1000).",
+      "preview": "Предпросмотр",
+      "previewSimulations": "Будет запущено {{count}} симуляций",
+      "previewReplications": "Каждая с {{count}} повторениями",
+      "previewTotal": "Всего: {{count}} запусков симуляций",
+      "previewTime": "Ориентировочное время: ~{{minutes}} минут",
+      "cancel": "Отмена",
+      "start": "Начать перебор",
+      "errors": {
+        "selectParameter": "Сначала выберите параметр",
+        "invalidNumber": "Неверное {{type}} значение",
+        "mustBePositive": "Значение должно быть положительным",
+        "duplicateValue": "Значение уже существует",
+        "minValues": "Требуется минимум 2 значения",
+        "maxValues": "Максимум 50 значений",
+        "tooManyRuns": "Перебор слишком большой: {{total}} запусков (макс: {{max}}). Уменьшите количество значений или повторений."
+      }
+    },
+    "progress": {
+      "title": "Прогресс перебора",
+      "description": "Отслеживание выполнения перебора параметров",
+      "progress": "Прогресс",
+      "rejectionRate": "Вероятность отказа",
+      "results": "Результаты",
+      "status": {
+        "Done": "Выполнен",
+        "Running": "Выполняется",
+        "Pending": "Ожидает",
+        "Failed": "Ошибка",
+        "Cancelled": "Отменен"
+      },
+      "status_cnt": {
+        "Done_zero": "выполнено",
+        "Done_one": "выполнена",
+        "Done_few": "выполнено",
+        "Done_many": "выполнено",
+        "Done_other": "выполнено",
+        "Running_zero": "выполняется",
+        "Running_one": "выполняется",
+        "Running_few": "выполняется",
+        "Running_many": "выполняется",
+        "Running_other": "выполняется",
+        "Pending_zero": "ожидает",
+        "Pending_one": "ожидают",
+        "Pending_few": "ожидают",
+        "Pending_many": "ожидают",
+        "Pending_other": "ожидают",
+        "Failed_zero": "провалилось",
+        "Failed_one": "провалилась",
+        "Failed_few": "провалились",
+        "Failed_many": "провалилось",
+        "Failed_other": "провалилось",
+        "Cancelled_zero": "отменено",
+        "Cancelled_one": "отменена",
+        "Cancelled_few": "отменены",
+        "Cancelled_many": "отменено",
+        "Cancelled_other": "отменено"
+      }
+    },
+    "results": {
+      "title": "Результаты перебора",
+      "description": "Сравнение {{count}} завершённых симуляций",
+      "noResults": "Пока нет завершённых результатов",
+      "export": "Экспортировать CSV",
+      "rejectionProb": "Вероятность отказа",
+      "utilization": "Использование",
+      "throughput": "Пропускная способность",
+      "actions": "Действия",
+      "view": "Просмотр"
+    }
   }
 }

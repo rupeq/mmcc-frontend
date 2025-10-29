@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as SignupIndexRouteImport } from './routes/signup/index'
 import { Route as SigninIndexRouteImport } from './routes/signin/index'
 import { Route as SimulationsSimulationIdIndexRouteImport } from './routes/simulations/$simulationId/index'
+import { Route as SimulationsSimulationIdSweepsBatchIdRouteImport } from './routes/simulations/$simulationId/sweeps/$batchId'
 import { Route as SimulationsSimulationIdReportsReportIdRouteImport } from './routes/simulations/$simulationId/reports/$reportId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -36,6 +37,12 @@ const SimulationsSimulationIdIndexRoute =
     path: '/simulations/$simulationId/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const SimulationsSimulationIdSweepsBatchIdRoute =
+  SimulationsSimulationIdSweepsBatchIdRouteImport.update({
+    id: '/simulations/$simulationId/sweeps/$batchId',
+    path: '/simulations/$simulationId/sweeps/$batchId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const SimulationsSimulationIdReportsReportIdRoute =
   SimulationsSimulationIdReportsReportIdRouteImport.update({
     id: '/simulations/$simulationId/reports/$reportId',
@@ -49,6 +56,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupIndexRoute
   '/simulations/$simulationId': typeof SimulationsSimulationIdIndexRoute
   '/simulations/$simulationId/reports/$reportId': typeof SimulationsSimulationIdReportsReportIdRoute
+  '/simulations/$simulationId/sweeps/$batchId': typeof SimulationsSimulationIdSweepsBatchIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -56,6 +64,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupIndexRoute
   '/simulations/$simulationId': typeof SimulationsSimulationIdIndexRoute
   '/simulations/$simulationId/reports/$reportId': typeof SimulationsSimulationIdReportsReportIdRoute
+  '/simulations/$simulationId/sweeps/$batchId': typeof SimulationsSimulationIdSweepsBatchIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -64,6 +73,7 @@ export interface FileRoutesById {
   '/signup/': typeof SignupIndexRoute
   '/simulations/$simulationId/': typeof SimulationsSimulationIdIndexRoute
   '/simulations/$simulationId/reports/$reportId': typeof SimulationsSimulationIdReportsReportIdRoute
+  '/simulations/$simulationId/sweeps/$batchId': typeof SimulationsSimulationIdSweepsBatchIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -73,6 +83,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/simulations/$simulationId'
     | '/simulations/$simulationId/reports/$reportId'
+    | '/simulations/$simulationId/sweeps/$batchId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -80,6 +91,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/simulations/$simulationId'
     | '/simulations/$simulationId/reports/$reportId'
+    | '/simulations/$simulationId/sweeps/$batchId'
   id:
     | '__root__'
     | '/'
@@ -87,6 +99,7 @@ export interface FileRouteTypes {
     | '/signup/'
     | '/simulations/$simulationId/'
     | '/simulations/$simulationId/reports/$reportId'
+    | '/simulations/$simulationId/sweeps/$batchId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -95,6 +108,7 @@ export interface RootRouteChildren {
   SignupIndexRoute: typeof SignupIndexRoute
   SimulationsSimulationIdIndexRoute: typeof SimulationsSimulationIdIndexRoute
   SimulationsSimulationIdReportsReportIdRoute: typeof SimulationsSimulationIdReportsReportIdRoute
+  SimulationsSimulationIdSweepsBatchIdRoute: typeof SimulationsSimulationIdSweepsBatchIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -127,6 +141,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SimulationsSimulationIdIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/simulations/$simulationId/sweeps/$batchId': {
+      id: '/simulations/$simulationId/sweeps/$batchId'
+      path: '/simulations/$simulationId/sweeps/$batchId'
+      fullPath: '/simulations/$simulationId/sweeps/$batchId'
+      preLoaderRoute: typeof SimulationsSimulationIdSweepsBatchIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/simulations/$simulationId/reports/$reportId': {
       id: '/simulations/$simulationId/reports/$reportId'
       path: '/simulations/$simulationId/reports/$reportId'
@@ -144,6 +165,8 @@ const rootRouteChildren: RootRouteChildren = {
   SimulationsSimulationIdIndexRoute: SimulationsSimulationIdIndexRoute,
   SimulationsSimulationIdReportsReportIdRoute:
     SimulationsSimulationIdReportsReportIdRoute,
+  SimulationsSimulationIdSweepsBatchIdRoute:
+    SimulationsSimulationIdSweepsBatchIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

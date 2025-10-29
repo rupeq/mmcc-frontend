@@ -102,3 +102,4 @@ export {
   DialogTitle,
   DialogTrigger,
 } from "./Dialog";
+export { Badge } from "./Badge";

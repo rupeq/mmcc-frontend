@@ -119,7 +119,8 @@
       "runSimulation": "Run Simulation",
       "runningSimulation": "Running...",
       "runSuccess": "Simulation started successfully",
-      "runError": "Failed to start simulation"
+      "runError": "Failed to start simulation",
+      "parameterSweep": "Run Sweep"
     },
     "sections": {
       "metadata": {
@@ -149,6 +150,8 @@
         "title": "Simulation Reports",
         "description": "Execution history and results for this configuration",
         "count_one": "{{count}} report",
+        "count_few": "{{count}} reports",
+        "count_many": "{{count}} reports",
         "count_other": "{{count}} reports",
         "reportNumber": "Report #{{id}}",
         "createdAt": "Created {{date}}",
@@ -158,7 +161,13 @@
         "noReports": {
           "title": "No Reports Yet",
           "description": "This simulation configuration hasn't been executed yet. Reports will appear here once the simulation runs."
-        }
+        },
+        "sweepBatch": {
+          "title": "Parameter Sweep Batch",
+          "parameter": "Parameter",
+          "viewReports_other": "{{count}} reports in this sweep"
+        },
+        "individualReports": "Individual Reports"
       }
     },
     "statuses": {
@@ -174,5 +183,85 @@
     "deleteConfirm": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
     "clearFilters": "Clear filters",
     "archived": "(Archived)"
+  },
+  "sweep": {
+    "subTitle": "Parameter Sweep",
+    "configure": {
+      "title": "Configure Parameter Sweep",
+      "description": "Run multiple simulations by varying a single parameter",
+      "parameter": "Parameter to Sweep",
+      "selectParameter": "Select a parameter",
+      "values": "Values to Test",
+      "valuesPlaceholder": "Enter values separated by commas or spaces\nExample: 1, 2, 3, 4, 5",
+      "valuesDescription": "Enter 2-50 values. Total runs = values × replications (max 1000).",
+      "preview": "Preview",
+      "previewSimulations": "This will run {{count}} simulations",
+      "previewReplications": "Each with {{count}} replications",
+      "previewTotal": "Total: {{count}} simulation runs",
+      "previewTime": "Estimated time: ~{{minutes}} minutes",
+      "cancel": "Cancel",
+      "start": "Start Sweep",
+      "errors": {
+        "selectParameter": "Please select a parameter first",
+        "invalidNumber": "Invalid {{type}} value",
+        "mustBePositive": "Value must be positive",
+        "duplicateValue": "Value already exists",
+        "minValues": "Minimum 2 values required",
+        "maxValues": "Maximum 50 values allowed",
+        "tooManyRuns": "Sweep too large: {{total}} runs (max: {{max}}). Reduce values or replications."
+      }
+    },
+    "progress": {
+      "title": "Sweep Progress",
+      "description": "Monitor the execution of your parameter sweep",
+      "progress": "Progress",
+      "rejectionRate": "Rejection Rate",
+      "results": "Results",
+      "status": {
+        "Done": "Done",
+        "Running": "Running",
+        "Pending": "Pending",
+        "Failed": "Failed",
+        "Cancelled": "Cancelled"
+      },
+      "status_cnt": {
+        "Done_zero": "Done",
+        "Done_one": "Done",
+        "Done_few": "Done",
+        "Done_many": "Done",
+        "Done_other": "Done",
+        "Running_zero": "Running",
+        "Running_one": "Running",
+        "Running_few": "Running",
+        "Running_many": "Running",
+        "Running_other": "Running",
+        "Pending_zero": "Pending",
+        "Pending_one": "Pending",
+        "Pending_few": "Pending",
+        "Pending_many": "Pending",
+        "Pending_other": "Pending",
+        "Failed_zero": "Failed",
+        "Failed_one": "Failed",
+        "Failed_few": "Failed",
+        "Failed_many": "Failed",
+        "Failed_other": "Failed",
+        "Cancelled_zero": "Cancelled",
+        "Cancelled_one": "Cancelled",
+        "Cancelled_few": "Cancelled",
+        "Cancelled_many": "Cancelled",
+        "Cancelled_other": "Cancelled"
+      }
+    },
+    "results": {
+      "title": "Sweep Results",
+      "description": "Comparison of {{count}} completed simulations",
+      "noResults": "No completed results yet",
+      "export": "Export CSV",
+      "rejectionProb": "Rejection Probability",
+      "utilization": "Utilization",
+      "throughput": "Throughput",
+      "actions": "Actions",
+      "view": "View"
+    }
   }
 }

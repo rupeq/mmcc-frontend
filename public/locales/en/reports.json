@@ -11,6 +11,8 @@
   "aggregatedResults": {
     "title": "Aggregated Results",
     "description_one": "Results from {{count}} replication",
+    "description_few": "",
+    "description_many": "",
     "description_other": "Results from {{count}} replications"
   },
   "metrics": {

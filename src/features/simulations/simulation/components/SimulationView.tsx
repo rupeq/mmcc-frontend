@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
@@ -16,6 +18,8 @@ import { getSimulationsQueryKeys } from "@/features/simulations";
 import { SimulationsSidebar } from "@/features/simulations/components/SimulationsSidebar";
 import { SimulationsFiltersContext } from "@/features/simulations/contexts";
 import { useSimulationFilters } from "@/features/simulations/hooks";
+import { BatchReportsGroup } from "@/features/simulations/simulation/components/BatchReportsGroup";
+import { SweepConfigurationDialog } from "@/features/simulations/simulation/components/SweepConfigurationDialog";
 import {
   getSimulationReportsQueryOptions,
   useRunSimulationMutation,
@@ -24,7 +28,6 @@ import {
   zGetSimulationConfigurationResponse,
   zSimulationReport,
 } from "@/lib/api";
-import { cn } from "@/lib/styles";
 import { queryClient } from "@/lib/tanstack";
 
 import { DataCollectionSettings } from "./DataCollectionSettings";
@@ -42,33 +45,24 @@ interface Props {
 export const SimulationView = ({ simulation, reports }: Props) => {
   const { t } = useTranslation(["simulations"]);
 
+  const [isSweepDialogOpen, setIsSweepDialogOpen] = useState<boolean>(false);
+
   const {
     search,
-
     reportStatus,
-
     showArchived,
-
     simulations,
-
     simulationsQuery,
-
     setSearch,
-
     setReportStatus,
-
     setShowArchived,
   } = useSimulationFilters();
 
   const runSimulationMutation = useRunSimulationMutation({
     onSuccess: () => {
-      // Invalidate reports query to refresh the list
-
       queryClient.invalidateQueries({
         queryKey: getSimulationReportsQueryOptions(simulation.id).queryKey,
       });
-
-      // Invalidate simulations list to update any status indicators
 
       queryClient.invalidateQueries({
         queryKey: getSimulationsQueryKeys(),
@@ -107,6 +101,23 @@ export const SimulationView = ({ simulation, reports }: Props) => {
   };
 
   const activeReports = reports.filter((report) => report.is_active);
+  const groupedReports = activeReports.reduce(
+    (acc, report) => {
+      if (report.batch_id) {
+        if (!acc.batches[report.batch_id]) {
+          acc.batches[report.batch_id] = [];
+        }
+        acc.batches[report.batch_id].push(report);
+      } else {
+        acc.individual.push(report);
+      }
+      return acc;
+    },
+    {
+      batches: {} as Record<string, typeof activeReports>,
+      individual: [] as typeof activeReports,
+    },
+  );
 
   return (
     <SidebarProvider>
@@ -127,30 +138,27 @@ export const SimulationView = ({ simulation, reports }: Props) => {
                     </p>
                   )}
                 </div>
-                <span
-                  className={cn(
-                    "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium shrink-0",
-                    simulation.is_active
-                      ? "bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-400"
-                      : "bg-gray-50 text-gray-700 dark:bg-gray-950 dark:text-gray-400",
-                  )}
-                >
-                  {simulation.is_active
-                    ? t(($) => $.simulationView.header.active)
-                    : t(($) => $.simulationView.header.archived)}
-                </span>
               </div>
               {simulation.is_active && (
-                <Button
-                  onClick={handleRunSimulation}
-                  isLoading={runSimulationMutation.isPending}
-                  disabled={runSimulationMutation.isPending}
-                  size="sm"
-                >
-                  {runSimulationMutation.isPending
-                    ? t(($) => $.simulationView.actions.runningSimulation)
-                    : t(($) => $.simulationView.actions.runSimulation)}
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsSweepDialogOpen(true)}
+                    size="sm"
+                  >
+                    {t(($) => $.simulationView.actions.parameterSweep)}
+                  </Button>
+                  <Button
+                    onClick={handleRunSimulation}
+                    isLoading={runSimulationMutation.isPending}
+                    disabled={runSimulationMutation.isPending}
+                    size="sm"
+                  >
+                    {runSimulationMutation.isPending
+                      ? t(($) => $.simulationView.actions.runningSimulation)
+                      : t(($) => $.simulationView.actions.runSimulation)}
+                  </Button>
+                </div>
               )}
             </div>
           </header>
@@ -228,20 +236,59 @@ export const SimulationView = ({ simulation, reports }: Props) => {
                   </EmptyHeader>
                 </Empty>
               ) : (
-                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                  {activeReports.map((report) => (
-                    <SimulationReportCard
-                      key={report.id}
-                      report={report}
-                      simulationId={simulation.id}
-                    />
-                  ))}
+                <div className="space-y-6">
+                  {Object.entries(groupedReports.batches).map(
+                    ([batchId, batchReports]) => {
+                      const firstReport = batchReports[0];
+                      return (
+                        <BatchReportsGroup
+                          key={batchId}
+                          batchId={batchId}
+                          reports={batchReports}
+                          simulationId={simulation.id}
+                          parameterName={
+                            firstReport?.sweep_parameter_name ?? undefined
+                          }
+                        />
+                      );
+                    },
+                  )}
+                  {groupedReports.individual.length > 0 && (
+                    <>
+                      {Object.keys(groupedReports.batches).length > 0 && (
+                        <Separator className="my-6" />
+                      )}
+                      <div className="space-y-2">
+                        <h3 className="text-sm font-medium text-muted-foreground">
+                          {t(
+                            ($) =>
+                              $.simulationView.sections.reports
+                                .individualReports,
+                          )}
+                        </h3>
+                        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                          {groupedReports.individual.map((report) => (
+                            <SimulationReportCard
+                              key={report.id}
+                              report={report}
+                              simulationId={simulation.id}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
             </div>
           </main>
         </SidebarInset>
       </SimulationsFiltersContext.Provider>
+      <SweepConfigurationDialog
+        simulation={simulation}
+        open={isSweepDialogOpen}
+        onOpenChange={setIsSweepDialogOpen}
+      />
     </SidebarProvider>
   );
 };

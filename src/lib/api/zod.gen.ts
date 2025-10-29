@@ -501,7 +501,7 @@ export const zSimulationResponse = z.object({
 
 /**
  * SweepResultItem
- * Represent the simulation results for a single parameter value in a sweep.
+ * Result for a single parameter value in sweep.
  */
 export const zSweepResultItem = z.object({
     parameter_value: z.union([
@@ -509,14 +509,25 @@ export const zSweepResultItem = z.object({
         z.number(),
         z.string()
     ]),
-    result: zSimulationResponse
+    report_id: z.uuid(),
+    status: zReportStatus,
+    metrics: z.optional(z.union([
+        zSimulationMetrics,
+        z.null()
+    ]))
 });
 
 /**
  * SweepResponse
- * Represent the complete response for a parameter sweep experiment.
+ * Response containing all sweep results.
  */
 export const zSweepResponse = z.object({
+    batch_id: z.uuid(),
+    configuration_id: z.uuid(),
+    parameter_name: z.string(),
+    total_parameter_values: z.int(),
+    completed: z.int(),
+    failed: z.int(),
     results: z.array(zSweepResultItem)
 });
 
@@ -542,7 +553,19 @@ export const zGetSimulationConfigurationReportResponse = z.object({
         z.iso.datetime(),
         z.null()
     ]),
-    is_active: z.boolean()
+    is_active: z.boolean(),
+    batch_id: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    sweep_parameter_name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    sweep_parameter_value: z.optional(z.union([
+        z.record(z.string(), z.unknown()),
+        z.null()
+    ]))
 });
 
 /**
@@ -566,7 +589,19 @@ export const zSimulationReport = z.object({
         z.iso.datetime(),
         z.null()
     ]),
-    is_active: z.boolean()
+    is_active: z.boolean(),
+    batch_id: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    sweep_parameter_name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    sweep_parameter_value: z.optional(z.union([
+        z.record(z.string(), z.unknown()),
+        z.null()
+    ]))
 });
 
 /**
@@ -1005,11 +1040,6 @@ export const zQuantileStatisticsResponse = z.object({
 /**
  * RunSimulationResponse
  * Represent the response after running an existing simulation.
- *
- * Attributes:
- * simulation_configuration_id: The UUID of the configuration being run.
- * simulation_report_id: The unique identifier for the newly created report.
- * task_id: The background task ID for tracking execution status.
  */
 export const zRunSimulationResponse = z.object({
     simulation_configuration_id: z.uuid(),
@@ -1124,7 +1154,7 @@ export const zSweepParameter = z.object({
  * Represent a request to perform a parameter sweep simulation.
  */
 export const zSweepRequest = z.object({
-    base_request: zSimulationRequestInput,
+    simulationConfigurationId: z.uuid(),
     sweepParameter: zSweepParameter
 });
 
@@ -1309,6 +1339,19 @@ export const zRunParameterSweepApiV1SimulationsSweepPostData = z.object({
  * Successful Response
  */
 export const zRunParameterSweepApiV1SimulationsSweepPostResponse = zSweepResponse;
+
+export const zGetSweepStatusApiV1SimulationsSweepBatchIdGetData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        batch_id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zGetSweepStatusApiV1SimulationsSweepBatchIdGetResponse = zSweepResponse;
 
 export const zGetBackgroundTasksApiV1BackgroundTasksGetData = z.object({
     body: z.optional(z.never()),
