@@ -58,6 +58,7 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
                 <Input
                   {...field}
                   placeholder={t(($) => $.createForm.fields.name.placeholder)}
+                  value={field.value ?? ""}
                 />
               </FormControl>
               <FormMessage />
@@ -106,7 +107,7 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
                   type="number"
                   onChange={(e) => {
                     const value = e.target.value;
-                    field.onChange(value ? parseInt(value, 10) : 0);
+                    field.onChange(value ? parseInt(value, 10) : null);
                   }}
                 />
               </FormControl>
@@ -132,7 +133,7 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
                   step="0.1"
                   onChange={(e) => {
                     const value = e.target.value;
-                    field.onChange(value ? parseFloat(value) : 0);
+                    field.onChange(value ? parseFloat(value) : null);
                   }}
                 />
               </FormControl>
@@ -157,7 +158,7 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
                   type="number"
                   onChange={(e) => {
                     const value = e.target.value;
-                    field.onChange(value ? parseInt(value, 10) : 1);
+                    field.onChange(value ? parseInt(value, 10) : null);
                   }}
                 />
               </FormControl>
@@ -361,7 +362,7 @@ export const CreateSimulationForm = () => {
           })}
         </DialogDescription>
       </DialogHeader>
-      <div className="mt-4">
+      <div className="mt-4 max-h-[85%] overflow-y-auto">
         <Form {...form}>
           <form
             id="CreateSimulationForm"
@@ -377,7 +378,7 @@ export const CreateSimulationForm = () => {
           type="button"
           variant="outline"
           onClick={() => setCurrentStep((prev) => Math.max(0, prev - 1))}
-          disabled={currentStep === 0}
+          disabled={currentStep === 0 || !form.formState.isValid}
         >
           {t(($) => $.createForm.buttons.previous)}
         </Button>

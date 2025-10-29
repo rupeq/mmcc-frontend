@@ -238,11 +238,10 @@ export const SweepConfigurationDialog = ({
             {t(($) => $.sweep.configure.description)}
           </DialogDescription>
         </DialogHeader>
-
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-4"
+            className="space-y-4 mt-4"
           >
             <FormField
               control={form.control}
@@ -346,7 +345,7 @@ export const SweepConfigurationDialog = ({
                     </div>
                   )}
 
-                  <FormDescription>
+                  <FormDescription className="mt-1">
                     {t(($) => $.sweep.configure.valuesDescription)}
                   </FormDescription>
                   <FormMessage />

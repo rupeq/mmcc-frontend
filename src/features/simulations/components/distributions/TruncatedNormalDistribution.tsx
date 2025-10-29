@@ -36,7 +36,11 @@ export const TruncatedNormalDistribution = ({
                 step="0.01"
                 placeholder="e.g., 5.0"
                 {...field}
-                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                value={field.value ?? 0}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  field.onChange(value ? parseFloat(value) : 0);
+                }}
               />
             </FormControl>
             <FormMessage />
@@ -57,7 +61,11 @@ export const TruncatedNormalDistribution = ({
                 step="0.01"
                 placeholder="e.g., 1.0"
                 {...field}
-                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                value={field.value ?? 0}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  field.onChange(value ? parseFloat(value) : 0);
+                }}
               />
             </FormControl>
             <FormMessage />

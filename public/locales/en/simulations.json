@@ -198,7 +198,7 @@
       "previewSimulations": "This will run {{count}} simulations",
       "previewReplications": "Each with {{count}} replications",
       "previewTotal": "Total: {{count}} simulation runs",
-      "previewTime": "Estimated time: ~{{minutes}} minutes",
+      "previewTime": "Estimated time: ~{{minutes}} min",
       "cancel": "Cancel",
       "start": "Start Sweep",
       "errors": {

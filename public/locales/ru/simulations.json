@@ -201,7 +201,7 @@
       "previewSimulations": "Будет запущено {{count}} симуляций",
       "previewReplications": "Каждая с {{count}} повторениями",
       "previewTotal": "Всего: {{count}} запусков симуляций",
-      "previewTime": "Ориентировочное время: ~{{minutes}} минут",
+      "previewTime": "Ориентировочное время: ~{{minutes}} мин.",
       "cancel": "Отмена",
       "start": "Начать перебор",
       "errors": {
