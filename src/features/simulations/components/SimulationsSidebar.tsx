@@ -35,6 +35,7 @@ export const SimulationsSidebar = ({ activeSimulationId }: Props) => {
   const { t } = useTranslation(["simulations"]);
   const observerTarget = useRef<HTMLLIElement>(null);
   const [isFiltersPopoverOpen, setIsFiltersPopoverOpen] = useState(false);
+  const [isCreateSimOpen, setIsCreateSimOpen] = useState(false);
 
   const {
     search,
@@ -86,14 +87,18 @@ export const SimulationsSidebar = ({ activeSimulationId }: Props) => {
   return (
     <SidebarRoot>
       <SidebarHeader>
-        <Dialog>
+        <Dialog open={isCreateSimOpen} onOpenChange={setIsCreateSimOpen}>
           <DialogTrigger asChild={true}>
             <Button size="sm" variant="outline">
               {t(($) => $.sidebar.createButton)}
             </Button>
           </DialogTrigger>
           <DialogContent>
-            <CreateSimulationForm />
+            <CreateSimulationForm
+              onSuccess={() => {
+                setIsCreateSimOpen(false);
+              }}
+            />
           </DialogContent>
         </Dialog>
         <div className="flex flex-row gap-2">

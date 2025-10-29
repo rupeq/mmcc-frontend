@@ -19,10 +19,7 @@ interface Props {
   simulationParameters: z.infer<typeof zSimulationRequestOutput>;
 }
 
-export const ReportReplications = ({
-  replications,
-  simulationParameters,
-}: Props) => {
+export const ReportReplications = ({ replications }: Props) => {
   const { t } = useTranslation(["reports"]);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
@@ -106,47 +103,6 @@ export const ReportReplications = ({
                       </p>
                     </div>
                   </div>
-                  {simulationParameters.collectGanttData &&
-                    replication.gantt_chart.length > 0 && (
-                      <div>
-                        <p className="text-sm font-medium mb-2">
-                          {t(($) => $.dataCollection.ganttChart)}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          {t(($) => $.dataCollection.ganttEvents, {
-                            count: replication.gantt_chart.length,
-                          })}
-                        </p>
-                      </div>
-                    )}
-                  {simulationParameters.collectServiceTimes &&
-                    replication.raw_service_times &&
-                    replication.raw_service_times.length > 0 && (
-                      <div>
-                        <p className="text-sm font-medium mb-2">
-                          {t(($) => $.dataCollection.serviceTimes)}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          {t(($) => $.dataCollection.samplesCollected, {
-                            count: replication.raw_service_times.length,
-                          })}
-                        </p>
-                      </div>
-                    )}
-                  {replication.temporal_profile && (
-                    <div>
-                      <p className="text-sm font-medium mb-2">
-                        {t(($) => $.dataCollection.temporalProfile)}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {t(($) => $.dataCollection.timeWindows, {
-                          count:
-                            replication.temporal_profile.temporal_metrics
-                              .length,
-                        })}
-                      </p>
-                    </div>
-                  )}
                 </div>
               </>
             )}

@@ -42,6 +42,10 @@ interface CreateSimulationStepProps {
   form: UseFormReturn<CreateSimulationFormData>;
 }
 
+interface CreateSimulationFormProps {
+  onSuccess: () => void;
+}
+
 const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
   const { t } = useTranslation(["simulations"]);
 
@@ -215,7 +219,7 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
               <FormControl>
                 <Input
                   {...field}
-                  value={field.value ?? undefined}
+                  value={field.value ?? ""}
                   type="number"
                   placeholder={t(
                     ($) => $.createForm.fields.randomSeed.placeholder,
@@ -294,7 +298,9 @@ const CreateSimulationStep = ({ step, form }: CreateSimulationStepProps) => {
   return null;
 };
 
-export const CreateSimulationForm = () => {
+export const CreateSimulationForm = ({
+  onSuccess,
+}: CreateSimulationFormProps) => {
   const { t } = useTranslation(["simulations"]);
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -335,6 +341,7 @@ export const CreateSimulationForm = () => {
 
   const createMutation = useCreateSimulationMutation({
     onSuccess: ({ simulation_configuration_id }) => {
+      onSuccess();
       queryClient.invalidateQueries({
         queryKey: getSimulationsQueryKeys(),
       });
