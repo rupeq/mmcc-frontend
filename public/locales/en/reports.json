@@ -1,4 +1,39 @@
 {
+  "charts": {
+      "download": "Download",
+          "temporal": {
+              "title": "Temporal Analysis",
+            "description": "Analysis of system behavior over time.",
+            "utilization_timeseries": "Utilization Timeseries",
+            "busy_idle_distributions": "Busy/Idle Distributions",
+            "phase_comparison": "Phase Comparison",
+            "dataNotCollected": {
+                "title": "Temporal profile data not collected",
+              "description": "To view these charts, re-run the simulation with 'Collect Temporal Profile' enabled in the advanced options."
+            }
+        },
+    "gantt": {
+      "title": "Gantt Chart",
+      "description": "Timeline of channel activity and request processing.",
+      "dataNotCollected": {
+        "title": "Gantt chart data not collected",
+        "description": "To view this chart, re-run the simulation with 'Collect Gantt Chart Data' enabled in the advanced options."
+      }
+  },
+     "title": "Service Time Analysis",
+     "description": "Visual analysis of collected service time data.",
+     "histogram": "Histogram",
+     "ecdf": "ECDF",
+     "qq_plot": "Q-Q Plot",
+     "dataNotCollected": {
+       "title": "Service time data not collected",
+       "description": "To view these charts, re-run the simulation with 'Collect Service Times' enabled in the advanced options."
+     },
+     "errors": {
+       "loadFailed": "Failed to load chart.",
+       "noData": "No chart data available."
+     }
+   },
   "reportView": {
     "metadata": {
       "status": "Status",

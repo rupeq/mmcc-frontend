@@ -54,6 +54,41 @@ interface Resources {
       "description": "Results from {{count}} replication" | "" | "" | "Results from {{count}} replications",
       "title": "Aggregated Results"
     },
+    "charts": {
+      "dataNotCollected": {
+        "description": "To view these charts, re-run the simulation with 'Collect Service Times' enabled in the advanced options.",
+        "title": "Service time data not collected"
+      },
+      "description": "Visual analysis of collected service time data.",
+      "download": "Download",
+      "ecdf": "ECDF",
+      "errors": {
+        "loadFailed": "Failed to load chart.",
+        "noData": "No chart data available."
+      },
+      "gantt": {
+        "dataNotCollected": {
+          "description": "To view this chart, re-run the simulation with 'Collect Gantt Chart Data' enabled in the advanced options.",
+          "title": "Gantt chart data not collected"
+        },
+        "description": "Timeline of channel activity and request processing.",
+        "title": "Gantt Chart"
+      },
+      "histogram": "Histogram",
+      "qq_plot": "Q-Q Plot",
+      "temporal": {
+        "busy_idle_distributions": "Busy/Idle Distributions",
+        "dataNotCollected": {
+          "description": "To view these charts, re-run the simulation with 'Collect Temporal Profile' enabled in the advanced options.",
+          "title": "Temporal profile data not collected"
+        },
+        "description": "Analysis of system behavior over time.",
+        "phase_comparison": "Phase Comparison",
+        "title": "Temporal Analysis",
+        "utilization_timeseries": "Utilization Timeseries"
+      },
+      "title": "Service Time Analysis"
+    },
     "dataCollection": {
       "ganttChart": "Gantt Chart Data",
       "ganttEvents": "{{count}} service events recorded",
@@ -290,7 +325,7 @@ interface Resources {
         "preview": "Preview",
         "previewReplications": "Each with {{count}} replications",
         "previewSimulations": "This will run {{count}} simulations",
-        "previewTime": "Estimated time: ~{{minutes}} minutes",
+        "previewTime": "Estimated time: ~{{minutes}} min",
         "previewTotal": "Total: {{count}} simulation runs",
         "selectParameter": "Select a parameter",
         "start": "Start Sweep",

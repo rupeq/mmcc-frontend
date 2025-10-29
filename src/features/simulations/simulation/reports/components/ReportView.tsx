@@ -20,6 +20,7 @@ import {
 } from "@/lib/api";
 import { queryClient } from "@/lib/tanstack";
 
+import { GanttChart, ServiceTimeCharts, TemporalCharts } from "./charts";
 import { ReportAggregatedMetrics } from "./ReportAggregatedMetrics";
 import { ReportMetadata } from "./ReportMetadata";
 import { ReportReplications } from "./ReportReplications";
@@ -110,6 +111,24 @@ export const ReportView = ({ simulation, report }: Props) => {
               <>
                 <ReportAggregatedMetrics
                   metrics={report.results.aggregated_metrics}
+                />
+                <Separator />
+                <ServiceTimeCharts
+                  simulationId={simulation.id}
+                  reportId={report.id}
+                  parameters={simulation.simulation_parameters}
+                />
+                <Separator />
+                <GanttChart
+                  simulationId={simulation.id}
+                  reportId={report.id}
+                  parameters={simulation.simulation_parameters}
+                />
+                <Separator />
+                <TemporalCharts
+                  simulationId={simulation.id}
+                  reportId={report.id}
+                  parameters={simulation.simulation_parameters}
                 />
                 <Separator />
                 <ReportReplications

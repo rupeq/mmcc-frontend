@@ -103,3 +103,4 @@ export {
   DialogTrigger,
 } from "./Dialog";
 export { Badge } from "./Badge";
+export { Tabs, TabsList, TabsTrigger, TabsContent } from "./Tabs";
