@@ -8,6 +8,7 @@ export const namespaces = [
   "simulations",
   "common",
   "reports",
+  "optimization",
 ];
 export const defaultNamespace = "common";
 

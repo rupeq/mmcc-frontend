@@ -11,7 +11,8 @@
       "nextPageLabel": " • Scroll for more"
     },
     "notFoundMessage": "No simulations found",
-    "createButton": "Create Simulation"
+    "createButton": "Create Simulation",
+    "optimizeButton": "Channel optimization"
   },
   "filters": {
     "title": "Filters",

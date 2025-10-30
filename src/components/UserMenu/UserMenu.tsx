@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronUp, LogOut, User } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import {
+  Button,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -28,7 +29,7 @@ const getUserQuery = () => ({
 });
 
 export const UserMenu = () => {
-  const { t } = useTranslation(["common"]);
+  const { t } = useTranslation(["common", "simulations"]);
   const navigate = useNavigate();
   const userQuery = useQuery(getUserQuery());
   const signOutMutation = useSignOutMutation({
@@ -68,7 +69,7 @@ export const UserMenu = () => {
           <PopoverTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer"
             >
               <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                 <User className="size-4" />
@@ -102,10 +103,18 @@ export const UserMenu = () => {
                 </div>
               </div>
               <Separator />
+
               <div className="px-1 py-1">
                 <LanguageSwitcher />
               </div>
               <Separator />
+              <Link to="/optimization">
+                <Button size="sm" variant="ghost">
+                  {t(($) => $.sidebar.optimizeButton, {
+                    ns: "simulations",
+                  })}
+                </Button>
+              </Link>
               <button
                 onClick={handleSignOut}
                 disabled={signOutMutation.isPending}

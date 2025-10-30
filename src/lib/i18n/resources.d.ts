@@ -49,6 +49,133 @@ interface Resources {
       "signOut": "Sign out"
     }
   },
+  "optimization": {
+    "form": {
+      "algorithm": {
+        "description": "Select the optimization strategy to find the optimal number of service channels",
+        "label": "Algorithm",
+        "placeholder": "Choose an algorithm",
+        "title": "Optimization Algorithm"
+      },
+      "algorithms": {
+        "binary_search": {
+          "description": "Efficiently find minimum channels to meet target rejection probability",
+          "name": "Binary Search"
+        },
+        "cost_minimization": {
+          "description": "Balance channel costs against rejection penalties",
+          "name": "Cost Minimization"
+        },
+        "gradient_descent": {
+          "description": "Flexible gradient-based optimization",
+          "info": "Leave costs empty to minimize rejection probability only, or provide both to minimize total cost.",
+          "infoTitle": "Flexible Optimization",
+          "name": "Gradient Descent"
+        },
+        "multi_objective": {
+          "description": "Balance rejection, utilization, and cost with custom weights",
+          "name": "Multi-Objective Optimization"
+        }
+      },
+      "baseRequest": {
+        "description": "Base parameters used for optimization simulations",
+        "numReplications": "Number of Replications",
+        "simulationTime": "Simulation Time",
+        "title": "Simulation Parameters"
+      },
+      "buttons": {
+        "optimize": "Start Optimization",
+        "optimizing": "Optimizing..."
+      },
+      "distributions": {
+        "arrival": "Arrival Process",
+        "description": "Configure arrival and service process distributions",
+        "service": "Service Process",
+        "title": "Process Distributions"
+      },
+      "errors": {
+        "general": "An error occurred during optimization. Please check your parameters and try again.",
+        "title": "Optimization Failed"
+      },
+      "fields": {
+        "channelCost": {
+          "description": "Cost per channel per time unit",
+          "descriptionOptional": "Cost per channel (optional - leave empty to minimize rejection only)",
+          "label": "Channel Cost"
+        },
+        "costWeight": {
+          "label": "Cost Weight"
+        },
+        "costs": {
+          "title": "Cost Parameters"
+        },
+        "maxChannels": {
+          "description": "Upper limit for channel search (default: 100)",
+          "label": "Maximum Channels"
+        },
+        "rejectionPenalty": {
+          "description": "Penalty cost per rejected request",
+          "descriptionOptional": "Penalty per rejection (optional - leave empty to minimize rejection only)",
+          "label": "Rejection Penalty"
+        },
+        "rejectionWeight": {
+          "label": "Rejection Weight"
+        },
+        "targetRejectionProb": {
+          "description": "Maximum acceptable rejection probability (0.0 - 1.0)",
+          "label": "Target Rejection Probability"
+        },
+        "tolerance": {
+          "description": "Acceptable deviation from target (default: 0.01)",
+          "label": "Tolerance"
+        },
+        "utilizationWeight": {
+          "label": "Utilization Weight"
+        },
+        "weights": {
+          "description": "Weights will be automatically normalized to sum to 1.0",
+          "title": "Objective Weights"
+        }
+      },
+      "optional": "Optional"
+    },
+    "results": {
+      "buttons": {
+        "export": "Export CSV",
+        "newOptimization": "New Optimization"
+      },
+      "convergence": {
+        "description": "Optimization progress and tested configurations",
+        "showingFirst": "Showing first {{shown}} of {{total}} iterations. Export CSV to see all results.",
+        "title": "Convergence History"
+      },
+      "cost": {
+        "description": "Total cost for the optimal configuration",
+        "title": "Total Cost Analysis",
+        "unit": "total cost"
+      },
+      "metrics": {
+        "optimalChannels": "Optimal Channels",
+        "rejectionProb": "Rejection Probability",
+        "throughput": "Throughput",
+        "throughputUnit": "req/time",
+        "utilization": "Channel Utilization"
+      },
+      "optimal": {
+        "description": "Converged after {{iterations}} iterations",
+        "title": "Optimal Configuration Found"
+      }
+    },
+    "view": {
+      "completed": "Optimization Complete",
+      "info": {
+        "description": "Configure and run optimization algorithms to find the optimal number of service channels for your queueing system. Select an algorithm below to begin.",
+        "title": "Getting Started"
+      },
+      "subtitle": "Find the optimal number of service channels",
+      "title": "Channel Optimization"
+    }
+  },
   "reports": {
     "aggregatedResults": {
       "description": "Results from {{count}} replication" | "" | "" | "Results from {{count}} replications",
@@ -235,6 +362,7 @@ interface Resources {
     "sidebar": {
       "createButton": "Create Simulation",
       "notFoundMessage": "No simulations found",
+      "optimizeButton": "Channel optimization",
       "scroll": {
         "nextPageLabel": " • Scroll for more",
         "totalSimulations": "{{count}} simulations" | "{{count}} simulation" | "{{count}} simulations" | "{{count}} simulations"

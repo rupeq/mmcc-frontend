@@ -104,3 +104,14 @@ export {
 } from "./Dialog";
 export { Badge } from "./Badge";
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./Tabs";
+export { Alert, AlertTitle, AlertDescription } from "./Alert";
+export {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+} from "./Table";

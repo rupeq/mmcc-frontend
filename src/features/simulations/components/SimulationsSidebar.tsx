@@ -101,6 +101,7 @@ export const SimulationsSidebar = ({ activeSimulationId }: Props) => {
             />
           </DialogContent>
         </Dialog>
+
         <div className="flex flex-row gap-2">
           <Input
             placeholder={t(($) => $.sidebar.search.placeholder)}

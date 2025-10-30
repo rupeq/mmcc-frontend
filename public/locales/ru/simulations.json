@@ -12,7 +12,8 @@
       "nextPageLabel": " • Листайте, чтобы увидеть больше"
     },
     "notFoundMessage": "Симуляции отсутствуют",
-    "createButton": "Создать симуляцию"
+    "createButton": "Создать симуляцию",
+    "optimizeButton": "Оптимизация каналов"
   },
   "filters": {
     "title": "Фильтры",

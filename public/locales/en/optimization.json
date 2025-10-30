@@ -1,0 +1,127 @@
+{
+  "form": {
+    "optional": "Optional",
+    "algorithm": {
+      "title": "Optimization Algorithm",
+      "description": "Select the optimization strategy to find the optimal number of service channels",
+      "label": "Algorithm",
+      "placeholder": "Choose an algorithm"
+    },
+    "algorithms": {
+      "binary_search": {
+        "name": "Binary Search",
+        "description": "Efficiently find minimum channels to meet target rejection probability"
+      },
+      "cost_minimization": {
+        "name": "Cost Minimization",
+        "description": "Balance channel costs against rejection penalties"
+      },
+      "gradient_descent": {
+        "name": "Gradient Descent",
+        "description": "Flexible gradient-based optimization",
+        "infoTitle": "Flexible Optimization",
+        "info": "Leave costs empty to minimize rejection probability only, or provide both to minimize total cost."
+      },
+      "multi_objective": {
+        "name": "Multi-Objective Optimization",
+        "description": "Balance rejection, utilization, and cost with custom weights"
+      }
+    },
+    "fields": {
+      "targetRejectionProb": {
+        "label": "Target Rejection Probability",
+        "description": "Maximum acceptable rejection probability (0.0 - 1.0)"
+      },
+      "maxChannels": {
+        "label": "Maximum Channels",
+        "description": "Upper limit for channel search (default: 100)"
+      },
+      "tolerance": {
+        "label": "Tolerance",
+        "description": "Acceptable deviation from target (default: 0.01)"
+      },
+      "channelCost": {
+        "label": "Channel Cost",
+        "description": "Cost per channel per time unit",
+        "descriptionOptional": "Cost per channel (optional - leave empty to minimize rejection only)"
+      },
+      "rejectionPenalty": {
+        "label": "Rejection Penalty",
+        "description": "Penalty cost per rejected request",
+        "descriptionOptional": "Penalty per rejection (optional - leave empty to minimize rejection only)"
+      },
+      "weights": {
+        "title": "Objective Weights",
+        "description": "Weights will be automatically normalized to sum to 1.0"
+      },
+      "rejectionWeight": {
+        "label": "Rejection Weight"
+      },
+      "utilizationWeight": {
+        "label": "Utilization Weight"
+      },
+      "costWeight": {
+        "label": "Cost Weight"
+      },
+      "costs": {
+        "title": "Cost Parameters"
+      }
+    },
+    "baseRequest": {
+      "title": "Simulation Parameters",
+      "description": "Base parameters used for optimization simulations",
+      "simulationTime": "Simulation Time",
+      "numReplications": "Number of Replications"
+    },
+    "distributions": {
+      "title": "Process Distributions",
+      "description": "Configure arrival and service process distributions",
+      "arrival": "Arrival Process",
+      "service": "Service Process"
+    },
+    "buttons": {
+      "optimize": "Start Optimization",
+      "optimizing": "Optimizing..."
+    },
+    "errors": {
+      "title": "Optimization Failed",
+      "general": "An error occurred during optimization. Please check your parameters and try again."
+    }
+  },
+  "results": {
+    "optimal": {
+      "title": "Optimal Configuration Found",
+      "description": "Converged after {{iterations}} iterations"
+    },
+    "metrics": {
+      "optimalChannels": "Optimal Channels",
+      "rejectionProb": "Rejection Probability",
+      "utilization": "Channel Utilization",
+      "throughput": "Throughput",
+      "throughputUnit": "req/time"
+    },
+    "cost": {
+      "title": "Total Cost Analysis",
+      "description": "Total cost for the optimal configuration",
+      "unit": "total cost"
+    },
+    "convergence": {
+      "title": "Convergence History",
+      "description": "Optimization progress and tested configurations",
+      "showingFirst": "Showing first {{shown}} of {{total}} iterations. Export CSV to see all results."
+    },
+    "buttons": {
+      "newOptimization": "New Optimization",
+      "export": "Export CSV"
+    }
+  },
+  "view": {
+    "title": "Channel Optimization",
+    "subtitle": "Find the optimal number of service channels",
+    "completed": "Optimization Complete",
+    "info": {
+      "title": "Getting Started",
+      "description": "Configure and run optimization algorithms to find the optimal number of service channels for your queueing system. Select an algorithm below to begin."
+    }
+  }
+}
